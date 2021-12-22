@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Series{% endblock %}
+
+{% block body %}
+    <h1>Create new Series</h1>
+
+    {{ include('series/_form.html.twig') }}
+
+    <a href="{{ path('series_index') }}">back to list</a>
+{% endblock %}

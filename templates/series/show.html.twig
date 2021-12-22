@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Series
+{% endblock %}
+
+{% block body %}
+	<h1>Serie</h1>
+
+    
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ series.id }}</td>
+			</tr>
+			<tr>
+				<th>Title</th>
+				<td>{{ series.title }}</td>
+			</tr>
+			<tr>
+				<th>Plot</th>
+				<td>{{ series.plot }}</td>
+			</tr>
+			<tr>
+				<th>Season</th>
+				<td>
+					<ul>
+						{% for season in seasons %}
+							<li>
+								{{ season[0].number }}
+								({{ season[1] }}
+								épisodes)
+							</li>
+						{% endfor %}
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<th>Poster</th>
+				<td>
+					<img src="{{ path('series_poster', {'id': series.id}) }}">
+				</td>
+			</tr>
+			<tr>
+				<th>Director</th>
+				<td>{{ series.director }}</td>
+			</tr>
+			<tr>
+				<th>YoutubeTrailer</th>
+				<td>
+					<iframe width="420" height="300" src="{{ series.getYoutubeEmbed() }}"></iframe>
+				</td>
+
+			</tr>
+			<tr>
+				<th>Awards</th>
+				<td>{{ series.awards }}</td>
+			</tr>
+			<tr>
+				<th>YearStart</th>
+				<td>{{ series.yearStart }}</td>
+			</tr>
+			<tr>
+				<th>YearEnd</th>
+				<td>{{ series.yearEnd }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('series_index') }}">back to list</a>
+
+	{# <a href="{{ path('series_edit', {'id': series.id}) }}">edit</a> #}
+
+	{# {{ include('series/_delete_form.html.twig') }} #}
+{% endblock %}
