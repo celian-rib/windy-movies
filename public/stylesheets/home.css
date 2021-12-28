@@ -102,18 +102,36 @@
     width: 50%;
     height: 100%;
     background-color: #ff9c38cb;
-    transition: transform 3s;
-    transition-delay: 1s;
+    /* transition: transform 3s;
+    transition-delay: 1s; */
 }
 
 #best-serie > span:first-of-type {
     left: 0;
-    transform: translateX(-80%) skew(-30deg);
+    animation: span-skew-left 2s cubic-bezier(0.91, 0.13, 0.36, 1.12) forwards 1s;
 }
 
 #best-serie > span:last-of-type {
+    animation: span-skew-right 2s cubic-bezier(0.91, 0.13, 0.36, 1.12) forwards 1s;
     right: 0;
-    transform: translateX(80%) skew(-30deg);
+}
+
+@keyframes span-skew-left {
+    0% {
+        transform: translateX(0) skew(0);
+    }
+    100% {
+        transform: translateX(-80%) skew(-30deg);
+    }
+}
+
+@keyframes span-skew-right {
+    0% {
+        transform: translateX(0) skew(0);
+    }
+    100% {
+        transform: translateX(80%) skew(-30deg);
+    }
 }
 
 #top-5 {

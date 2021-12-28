@@ -1,3 +1,33 @@
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#app-container {
+    max-width: 1400px;
+    width: 100%;
+}
+
+.shadow {
+    box-shadow: 0px 0px 26px 0px rgba(0,0,0,0.58);
+}
+
+.button {
+    width: fit-content;
+    transition: transform 0.5s;
+    background-color: #272a33;
+    border-radius: 30px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 2em 0 2em;
+}
+
+.button:hover {
+    transform: scale(1.1);
+}
+
 #loading {
     z-index: 100;
     background-color: black;

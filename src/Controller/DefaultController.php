@@ -30,7 +30,7 @@ class DefaultController extends AbstractController
             ->getRepository(Series::class)
             ->findBy([], null, 10, 10); // multiple de 5 obligé
 
-        return $this->render('default/index.html.twig', [
+        return $this->render('default/home.html.twig', [
             'best' => $best,
             'top_5' => $top_5,
             'trending' => $trending,

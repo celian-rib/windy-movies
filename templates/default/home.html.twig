@@ -9,7 +9,7 @@
 	<link href="{{ asset('stylesheets/serie-item.css') }}" rel="stylesheet">
 {% endblock %}
 
-{% block body %}
+{% block app %}
 	<header id="home-header" class="influx-container">
 		<form action="{{ path('series_index') }}" method="GET" class="shadow">
 			<input name="search" type="text" placeholder="Search content..."/>
@@ -24,7 +24,7 @@
 		<span class="shadow"></span>
 		<p>Made for you</p>
 		<h1>{{best.title}}</h1>
-		<a class="shadow" href="/">Watch now</a>
+		<a class="shadow" href="{{ path('series_show', {'id': best.id}) }}">Watch now</a>
 	</div>
 
 	<h1 class="separator">Recommended</h1>
