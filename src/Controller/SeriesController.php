@@ -20,7 +20,7 @@ class SeriesController extends AbstractController
     {
         $series = $entityManager
             ->getRepository(Series::class)
-            ->findBy([], null, 20);
+            ->findBy([], null, 100);
 
         return $this->render('series/index.html.twig', [
             'series' => $series,

@@ -2,6 +2,7 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
+    scroll-behavior: smooth;
 }
 
 #app-container {
@@ -66,3 +67,21 @@ body {
         z-index: -100;
     }
 }
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(100,100,100,0.4);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff9c38;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ffc387;
+}
+
