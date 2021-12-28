@@ -1,0 +1,38 @@
+#loading {
+    z-index: 100;
+    background-color: black;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: load-back 0.2s linear forwards 0.4s;
+}
+
+#loading > img {
+    width: 10%;
+    max-width: 200px;
+    animation: load-img 0.5s forwards cubic-bezier(0.35, 1.45, 0.56,-0.29) 0.1s;
+}
+
+@keyframes load-img {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+@keyframes load-back {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+        z-index: -100;
+    }
+}

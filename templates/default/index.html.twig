@@ -28,7 +28,7 @@
 	</div>
 
     <h1 class="separator">Trending</h1>
-	<div id="top-5" class="influx-container">
+	<div id="top-5" class="influx-container shadow">
 		{% for s in top_5 %}
 			<a href="{{ path('series_show', {'id': s.id}) }}" class="serie-item">
 				<img src="{{ path('series_poster', {'id': s.id}) }}"/>

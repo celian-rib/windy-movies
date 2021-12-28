@@ -12,6 +12,8 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
 
+		<link href="{{ asset('stylesheets/loading.css') }}" rel="stylesheet">
+
 		<link rel="icon" href="{{asset('imgs/logo.svg')}}">
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
@@ -24,5 +26,8 @@
 	<body>
 		{% block navbar %}{% endblock %}
 		{% block body %}{% endblock %}
+		<div id="loading">
+			<img src="{{ asset('imgs/logo.svg') }}"/>
+		</div>
 	</body>
 </html>
