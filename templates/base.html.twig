@@ -30,4 +30,11 @@
 			<img src="{{ asset('imgs/logo.svg') }}"/>
 		</div>
 	</body>
+	<script>
+		const error = new URLSearchParams(window.location.search).get("error");
+		if(error != null) {
+			result = window.confirm(error);
+			if(result) window.location.href = "/";
+		}
+	</script>
 </html>

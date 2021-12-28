@@ -12,8 +12,8 @@
 			<img id="logo" src="{{ asset('imgs/logo.svg') }}"/>
 			<a id="{{ route == "index" ? "nav-selected" }}" href="{{ path('index') }}">Home</a>
 			<a id="{{ route == "series_index" ? "nav-selected" }}" href="{{ path('series_index') }}">Library</a>
-			<a id="{{ route == "account" ? "nav-selected" }}" href="{{ path('index') }}">Account</a>
-			<a id="{{ route == "about" ? "nav-selected" }}" href="{{ path('index') }}">About</a>
+			<a id="{{ route == "account" ? "nav-selected" }}" href="{{ path('index', {'error': 'Error loading page'}) }}">Account</a>
+			<a id="{{ route == "about" ? "nav-selected" }}" href="{{ path('about') }}">About</a>
 		</div>
 		<div class="nav-container">
 			<div id="user-container">
