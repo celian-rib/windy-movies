@@ -3,12 +3,16 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Welcome!
-			{% endblock %}
+			Windy -
+			{% block title %}{% endblock %}
 		</title>
-		<link
-		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+		<link href="{{ asset('stylesheets/reset.css') }}" rel="stylesheet">
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+		<link rel="icon" href="{{asset('imgs/logo.svg')}}">
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
@@ -18,68 +22,7 @@
 		{% endblock %}
 	</head>
 	<body>
-		<nav>
-			<a href="/">Accueil</a>
-			<a href="{{path('series_index')}}">Liste des séries</a>
-			<a href="/login">Connexion</a>
-			{# <span>{{ user.id }}</span> #}
-			<span>AH ma zone prime vie des eaux</span>
-		</nav>
+		{% block navbar %}{% endblock %}
 		{% block body %}{% endblock %}
 	</body>
-	<style>
-		body {
-			margin: 0;
-			padding: 100px 0 0;
-			font-family: Arial;
-			background-color: #33374D;
-			background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2000 1500'%3E%3Cdefs%3E%3Crect stroke='%2333374D' stroke-width='0.6' width='1' height='1' id='s'/%3E%3Cpattern id='a' width='3' height='3' patternUnits='userSpaceOnUse' patternTransform='scale(42.35) translate(-976.39 -732.29)'%3E%3Cuse fill='%233e4154' href='%23s' y='2'/%3E%3Cuse fill='%233e4154' href='%23s' x='1' y='2'/%3E%3Cuse fill='%23474a5b' href='%23s' x='2' y='2'/%3E%3Cuse fill='%23474a5b' href='%23s'/%3E%3Cuse fill='%23505261' href='%23s' x='2'/%3E%3Cuse fill='%23505261' href='%23s' x='1' y='1'/%3E%3C/pattern%3E%3Cpattern id='b' width='7' height='11' patternUnits='userSpaceOnUse' patternTransform='scale(42.35) translate(-976.39 -732.29)'%3E%3Cg fill='%23575967'%3E%3Cuse href='%23s'/%3E%3Cuse href='%23s' y='5' /%3E%3Cuse href='%23s' x='1' y='10'/%3E%3Cuse href='%23s' x='2' y='1'/%3E%3Cuse href='%23s' x='2' y='4'/%3E%3Cuse href='%23s' x='3' y='8'/%3E%3Cuse href='%23s' x='4' y='3'/%3E%3Cuse href='%23s' x='4' y='7'/%3E%3Cuse href='%23s' x='5' y='2'/%3E%3Cuse href='%23s' x='5' y='6'/%3E%3Cuse href='%23s' x='6' y='9'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='h' width='5' height='13' patternUnits='userSpaceOnUse' patternTransform='scale(42.35) translate(-976.39 -732.29)'%3E%3Cg fill='%23575967'%3E%3Cuse href='%23s' y='5'/%3E%3Cuse href='%23s' y='8'/%3E%3Cuse href='%23s' x='1' y='1'/%3E%3Cuse href='%23s' x='1' y='9'/%3E%3Cuse href='%23s' x='1' y='12'/%3E%3Cuse href='%23s' x='2'/%3E%3Cuse href='%23s' x='2' y='4'/%3E%3Cuse href='%23s' x='3' y='2'/%3E%3Cuse href='%23s' x='3' y='6'/%3E%3Cuse href='%23s' x='3' y='11'/%3E%3Cuse href='%23s' x='4' y='3'/%3E%3Cuse href='%23s' x='4' y='7'/%3E%3Cuse href='%23s' x='4' y='10'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='c' width='17' height='13' patternUnits='userSpaceOnUse' patternTransform='scale(42.35) translate(-976.39 -732.29)'%3E%3Cg fill='%235e606d'%3E%3Cuse href='%23s' y='11'/%3E%3Cuse href='%23s' x='2' y='9'/%3E%3Cuse href='%23s' x='5' y='12'/%3E%3Cuse href='%23s' x='9' y='4'/%3E%3Cuse href='%23s' x='12' y='1'/%3E%3Cuse href='%23s' x='16' y='6'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='d' width='19' height='17' patternUnits='userSpaceOnUse' patternTransform='scale(42.35) translate(-976.39 -732.29)'%3E%3Cg fill='%2333374D'%3E%3Cuse href='%23s' y='9'/%3E%3Cuse href='%23s' x='16' y='5'/%3E%3Cuse href='%23s' x='14' y='2'/%3E%3Cuse href='%23s' x='11' y='11'/%3E%3Cuse href='%23s' x='6' y='14'/%3E%3C/g%3E%3Cg fill='%23646672'%3E%3Cuse href='%23s' x='3' y='13'/%3E%3Cuse href='%23s' x='9' y='7'/%3E%3Cuse href='%23s' x='13' y='10'/%3E%3Cuse href='%23s' x='15' y='4'/%3E%3Cuse href='%23s' x='18' y='1'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='e' width='47' height='53' patternUnits='userSpaceOnUse' patternTransform='scale(42.35) translate(-976.39 -732.29)'%3E%3Cg fill='%23FFA95A'%3E%3Cuse href='%23s' x='2' y='5'/%3E%3Cuse href='%23s' x='16' y='38'/%3E%3Cuse href='%23s' x='46' y='42'/%3E%3Cuse href='%23s' x='29' y='20'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='f' width='59' height='71' patternUnits='userSpaceOnUse' patternTransform='scale(42.35) translate(-976.39 -732.29)'%3E%3Cg fill='%23FFA95A'%3E%3Cuse href='%23s' x='33' y='13'/%3E%3Cuse href='%23s' x='27' y='54'/%3E%3Cuse href='%23s' x='55' y='55'/%3E%3C/g%3E%3C/pattern%3E%3Cpattern id='g' width='139' height='97' patternUnits='userSpaceOnUse' patternTransform='scale(42.35) translate(-976.39 -732.29)'%3E%3Cg fill='%23FFA95A'%3E%3Cuse href='%23s' x='11' y='8'/%3E%3Cuse href='%23s' x='51' y='13'/%3E%3Cuse href='%23s' x='17' y='73'/%3E%3Cuse href='%23s' x='99' y='57'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23b)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23h)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23c)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23d)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23e)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23f)' width='100%25' height='100%25'/%3E%3Crect fill='url(%23g)' width='100%25' height='100%25'/%3E%3C/svg%3E");
-			background-attachment: fixed;
-			background-size: cover;
-			color: white;
-			display: flex;
-			align-items: center;
-			flex-direction: column;
-		}
-		nav {
-			z-index: 100;
-			color: white;
-			position: fixed;
-			right: 0;
-			left: 0;
-			top: 0;
-			height: 100px;
-
-			margin: 0;
-			background-color: #232436;
-			display: flex;
-			align-items: center;
-			box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.3);
-		}
-		nav > a {
-			color: white;
-			margin-left: 4%;
-			background-color: rgba(255, 255, 255, 0.1);
-			padding: 10px 30px;
-			border-radius: 10px;
-			transition: 0.2s;
-			text-decoration: none;
-			box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.05);
-		}
-		nav > a:last-of-type {
-			position: absolute;
-			right: 400px;
-			border: none;
-		}
-		nav > a:hover {
-			box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
-			background-color: rgba(255, 255, 255, 0.25);
-			transform: scale(1.1);
-		}
-		nav > span {
-			font-size: 1.5em;
-			position: absolute;
-			right: 30px;
-		}
-	</style>
 </html>

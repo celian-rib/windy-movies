@@ -1,7 +1,5 @@
 [Sujet](https://gregwar.com/s3web/project.html#title.1)
 
-
-
 TODO (Non trié)
 
 - [ ] Page d'accueil présentant le site (+ Suggestion de séries)
@@ -26,6 +24,12 @@ TODO (Non trié)
 
 ```
 ssh login@info-ssh1.iut.u-bordeaux.fr -L 7777:info-titania.iut.bx1:3306 -N
+```
+```
+ssh criboulet@info-ssh1.iut.u-bordeaux.fr -L 7777:info-titania.iut.bx1:3306 -N
+```
+```
+ssh vjosso@info-ssh1.iut.u-bordeaux.fr -L 7777:info-titania.iut.bx1:3306 -N
 ```
 
 > Proxié sur 127.0.0.1:7777

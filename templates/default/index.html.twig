@@ -1,15 +1,42 @@
-{% extends 'base.html.twig' %}
+{% extends 'nav.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}Home
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('stylesheets/home.css') }}" rel="stylesheet">
+	{# <link href="{{ asset('stylesheets/serie-item.css') }}" rel="stylesheet"> #}
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<header id="home-header" class="influx-container">
+		<form method="POST" class="shadow">
+			<input type="text" placeholder="Search content..."/>
+			<img src="{{ asset('imgs/search.svg') }}"/>
+		</form>
+		<a class="shadow" href="/">My series</a>
+	</header>
 
-<div class="example-wrapper">
-    <p>Hello {{ controller_name }}! ✅</p>
-    <h1>AH ma zone prime vie des eaux</h1>
-</div>
+	<div id="best-serie" class="influx-container shadow">
+		<img src="{{ path('series_poster', {'id': best.id}) }}"/>
+		<span class="shadow"></span>
+		<span class="shadow"></span>
+		<p>Made for you</p>
+		<h1>{{best.title}}</h1>
+		<a class="shadow" href="/">Watch now</a>
+	</div>
+
+    <h1 class="separator">Trending</h1>
+	<div id="top-5" class="influx-container">
+		{% for s in top_5 %}
+			<a href="{{ path('series_show', {'id': s.id}) }}" class="serie-item">
+				<img src="{{ path('series_poster', {'id': s.id}) }}"/>
+				<div class="title-container">
+					<h1 class="fade-txt">{{ s.title }}</h1>
+					<p class="fade-txt">{{ s.yearStart }}</p>
+				</div>
+			</a>
+		{% endfor %}
+	</div>
 {% endblock %}

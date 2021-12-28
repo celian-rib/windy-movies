@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	<link href="{{ asset('stylesheets/navbar.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+	<nav id="app-navbar">
+		<div class="nav-container">
+			<img id="logo" src="{{ asset('imgs/logo.svg') }}"/>
+			<a href="{{ path('index') }}">Home</a>
+			<a href="{{ path('series_index') }}">Library</a>
+			<a href="{{ path('index') }}">Account</a>
+		</div>
+		<div class="nav-container">
+			<div id="user-container">
+				<img src="{{ asset('imgs/user.svg') }}"/>
+				<p>Victor .J</p>
+			</div>
+			<a href="{{ path('app_register') }}">Se deconnecter</a>
+		</div>
+	</nav>
+{% endblock %}
