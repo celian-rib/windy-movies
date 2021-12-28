@@ -11,11 +11,11 @@
 
 {% block body %}
 	<header id="home-header" class="influx-container">
-		<form method="POST" class="shadow">
-			<input type="text" placeholder="Search content..."/>
+		<form action="{{ path('series_index') }}" method="GET" class="shadow">
+			<input name="search" type="text" placeholder="Search content..."/>
 			<img src="{{ asset('imgs/search.svg') }}"/>
 		</form>
-		<a class="shadow button" href="/">My series</a>
+		<a class="shadow button" href="{{ path('series_index') }}">Browse</a>
 	</header>
 
 	<div id="best-serie" class="influx-container shadow">
@@ -54,6 +54,6 @@
 	</div>
 
 	<div class="influx-container">
-		<a class="shadow button" href="/">See more</a>
+		<a class="shadow button" href="{{ path('series_index') }}">See more</a>
 	</div>
 {% endblock %}

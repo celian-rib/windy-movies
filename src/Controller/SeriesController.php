@@ -26,6 +26,12 @@ class SeriesController extends AbstractController
             'series' => $series,
         ]);
     }
+    
+    #[Route('/library', name: 'library', methods: ['GET'])]
+    public function library(): Response
+    {
+        return $this->render('series/library.html.twig');
+    }
 
     #[Route('/{id}', name: 'series_show', methods: ['GET'])]
     public function show(Series $series, EntityManagerInterface $entityManager): Response
