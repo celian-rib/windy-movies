@@ -54,7 +54,7 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.nav-container > a::after {
+.nav-container > a::after{
     content: '';
     position: absolute;
     top: 0;
@@ -70,7 +70,8 @@ body {
     transition: transform 0.2s;
 }
 
-.nav-container > a:hover::after {
+.nav-container > a:hover::after, 
+#nav-selected::after  {
     transform: translateX(-50%);
 }
 

@@ -4,20 +4,23 @@
 	<link href="{{ asset('stylesheets/navbar.css') }}" rel="stylesheet">
 {% endblock %}
 
+{% set route = app.request.attributes.get('_route') %}
+
 {% block navbar %}
 	<nav id="app-navbar">
 		<div class="nav-container">
 			<img id="logo" src="{{ asset('imgs/logo.svg') }}"/>
-			<a href="{{ path('index') }}">Home</a>
-			<a href="{{ path('series_index') }}">Library</a>
-			<a href="{{ path('index') }}">Account</a>
+			<a id="{{ route == "index" ? "nav-selected" }}" href="{{ path('index') }}">Home</a>
+			<a id="{{ route == "series_index" ? "nav-selected" }}" href="{{ path('series_index') }}">Library</a>
+			<a id="{{ route == "account" ? "nav-selected" }}" href="{{ path('index') }}">Account</a>
+			<a id="{{ route == "about" ? "nav-selected" }}" href="{{ path('index') }}">About</a>
 		</div>
 		<div class="nav-container">
 			<div id="user-container">
 				<img src="{{ asset('imgs/user.svg') }}"/>
 				<p>Victor .J</p>
 			</div>
-			<a href="{{ path('app_register') }}">Se deconnecter</a>
+			<a href="{{ path('app_register') }}">Logout</a>
 		</div>
 	</nav>
 {% endblock %}

@@ -24,10 +24,16 @@ class DefaultController extends AbstractController
         $top_5 = $entityManager
             ->getRepository(Series::class)
             ->findBy([], null, 5);
+        
+        // TODO
+        $trending = $entityManager
+            ->getRepository(Series::class)
+            ->findBy([], null, 10, 10); // multiple de 5 obligé
 
         return $this->render('default/index.html.twig', [
             'best' => $best,
             'top_5' => $top_5,
+            'trending' => $trending,
         ]);
     }
 }

@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'nav.html.twig' %}
 
 {% block title %}Series index
 {% endblock %}
@@ -15,6 +15,7 @@
                     <p class="fade-txt">{{ s.yearStart }}</p>
 				</div>
 			</a>
+		{% endfor %}
 	</div>
 	<style>
 		.series-list-container {
