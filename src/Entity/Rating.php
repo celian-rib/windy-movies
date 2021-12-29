@@ -53,12 +53,8 @@ class Rating
     private $user;
 
     /**
-     * @var \Series
-     *
-     * @ORM\ManyToOne(targetEntity="Series")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="series_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity=Series::class, inversedBy="ratings")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $series;
 
@@ -126,6 +122,4 @@ class Rating
 
         return $this;
     }
-
-
 }

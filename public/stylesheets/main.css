@@ -29,6 +29,10 @@ body {
     transform: scale(1.1);
 }
 
+.flex {
+    display: flex;
+}
+
 #loading {
     z-index: 100;
     background-color: black;

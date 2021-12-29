@@ -8,5 +8,19 @@
 {% endblock %}
 
 {% block app %}
-	<h1>This is the library page</h1>
+	{% if ! app.user %} <!-- On s'en fou de ce cas enfaite, et trouver qu'est ce qu'est $this -->
+		<h1> Not connected </h1>
+		<a href="{{ path('app_register') }}"> Register </a>
+	{% else %}
+		<h1> Your library </h1>
+		{% for s in patate %} <!-- Quelques trucs à changer -->
+			<a href="{{ path('series_show', {'id': s.id}) }}" class="serie-item">
+				<img src="{{ path('series_poster', {'id': s.id}) }}"/>
+				<div class="title-container">
+					<h1 class="fade-txt">{{ s.title }}</h1>
+					<p class="fade-txt">{{ s.yearStart }}</p>
+				</div>
+			</a>
+		{% endfor %}
+	{% endif %}
 {% endblock %}

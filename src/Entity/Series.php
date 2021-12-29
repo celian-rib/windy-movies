@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Expr\Value;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -115,6 +116,11 @@ class Series
     private $user;
 
     /**
+     * @ORM\OneToMany(targetEntity=Rating::class, mappedBy="series", orphanRemoval=true)
+     */
+    private $ratings;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -123,6 +129,7 @@ class Series
         $this->country = new \Doctrine\Common\Collections\ArrayCollection();
         $this->genre = new \Doctrine\Common\Collections\ArrayCollection();
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ratings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -349,5 +356,45 @@ class Series
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Rating[]
+     */
+    public function getRatings(): Collection
+    {
+        return $this->ratings;
+    }
+
+    public function addRating(Rating $rating): self
+    {
+        if (!$this->ratings->contains($rating)) {
+            $this->ratings[] = $rating;
+            $rating->setSeries($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRating(Rating $rating): self
+    {
+        if ($this->ratings->removeElement($rating)) {
+            // set the owning side to null (unless already changed)
+            if ($rating->getSeries() === $this) {
+                $rating->setSeries(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRatingsValue(): int 
+    {
+        if(count($this->ratings) == 0)
+            return 0;
+        $total = 0;
+        foreach ($this->ratings as $rating)
+            $total = $total + $rating->getValue();
+        return $total / count($this->ratings);
     }
 }
