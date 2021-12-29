@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Episode;
+use App\Entity\Genre;
 use App\Entity\Season;
 use App\Entity\Series;
 use App\Form\SeriesType;
@@ -20,18 +21,24 @@ class SeriesController extends AbstractController
     public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
         $series = [];
-        if($request->query->get('search')) {
+        if ($request->query->get('search')) {
             $query = $entityManager->createQuery("SELECT s FROM App\Entity\Series s WHERE s.title like ?1");
-            $query->setParameter(1, '%'. $request->query->get('search') . '%');
+            $query->setParameter(1, '%' . $request->query->get('search') . '%');
             $series = $query->getResult();
         } else {
             $series = $entityManager
-            ->getRepository(Series::class)
-            ->findBy([], null, 100);
+                ->getRepository(Series::class)
+                ->findBy([], null, 100);
         }
 
+        $genres = $entityManager->getRepository(Genre::class)->findAll();
+
+        $ratings = ["Less than 5/10", "More than 5/10", "More than 9/10"];
+
         return $this->render('series/browse_series.html.twig', [
-            'series' => $series
+            'series' => $series,
+            'genres' => $genres,
+            'ratings' => $ratings,
         ]);
     }
 

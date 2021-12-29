@@ -9,32 +9,45 @@
 {% block title %}Browse
 {% endblock %}
 
-{% block app %}
-	<header id="search-header" class="influx-container">
-		<form action="{{ path('series_index') }}" method="GET" class="shadow">
-			<input name="search" type="text" placeholder="Search content..."/>
-			<img src="{{ asset('imgs/search.svg') }}"/>
-		</form>
-	    {# {{ form_start(registrationForm) }} #}
-		<form action="{{ path('series_index') }}" method="GET" class="shadow">
-			<select onchange="this.form.submit()" id="cars" name="cars">
-				<option value="volvo">Volvo</option>
-				<option value="saab">Saab</option>
-				<option value="fiat">Fiat</option>
-				<option value="audi">Audi</option>
-			</select>
-		</form>
-	    {# {{ form_end(registrationForm) }} #}
-	</header>
+{% set curr_search = app.request.get('search') %}
+{% set curr_genre = app.request.get('genre') %}
+{% set curr_rating = app.request.get('rating') %}
 
-	{% if app.request.get('search') %}
-		<div class="influx-container separator">
-			<h1>Results for "{{  app.request.get('search') }}"</h1>
-			<a class="shadow button" href="{{ path('series_index') }}">clear</a>
+{% block app %}
+	<form id="search-header" style="justify-content: flex-start;" class="influx-container" action="{{ path('series_index') }}" method="GET">
+		<div class="form-input-container shadow">
+			<input value="{{ curr_search ? curr_search : '' }}" name="search" type="text" placeholder="Search content..."/>
+			<img src="{{ asset('imgs/search.svg') }}"/>
 		</div>
-	{% else %}
-		<h1 class="separator">Series</h1>
-	{% endif %}
+		<div class="form-input-container shadow">
+			<select onchange="this.form.submit()" name="genre">
+				<option value="" {{ curr_genre == null ? 'selected' }} disabled>Filter by genre</option>
+				{% for genre in genres %}
+					<option {{ curr_genre == genre.getId() ? 'selected' }} value="{{ genre.getId() }}">{{ genre.getName() }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="form-input-container shadow">
+			<select onchange="this.form.submit()" name="rating">
+				<option value="" {{ curr_rating == null ? 'selected' }} disabled>Filter by rating</option>
+				{% for rate in ratings %}
+					<option {{ curr_rating == rate ? 'selected' }} value="{{ rate }}">{{ rate }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		{% if curr_search is not null or curr_genre is not null or curr_rating is not null %}
+			<a style="margin-left: 3em;" href="{{ path('series_index') }}" class="button shadow">Clear filters</a>
+		{% endif %}
+	</form>
+	{# 
+		{% if app.request.get('search') %}
+			<div class="influx-container separator">
+				<h1>Results for "{{  app.request.get('search') }}"</h1>
+				<a class="shadow button" href="{{ path('series_index') }}">clear</a>
+			</div>
+		{% else %} #}
+	<h1 class="separator">Series</h1>
+	{# {% endif %} #}
 
 	<div class="influx-container slot-background">
 		{% for s in series %}

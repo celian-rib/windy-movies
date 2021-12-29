@@ -15,7 +15,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed, 
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video, input {
+time, mark, audio, video, input, select {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -53,10 +53,11 @@ a {
 	color: white;
 	text-decoration: none;
 }
-input {
+input, select {
 	color: white;
+	background-color: transparent;
 }
-input:focus {
+input:focus, select:focus {
     outline: none;
 }
 input:-webkit-autofill,

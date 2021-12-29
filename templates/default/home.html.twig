@@ -10,13 +10,13 @@
 {% endblock %}
 
 {% block app %}
-	<header id="search-header" class="influx-container">
-		<form action="{{ path('series_index') }}" method="GET" class="shadow">
+	<form id="search-header" class="influx-container" action="{{ path('series_index') }}" method="GET">
+		<div class="form-input-container">
 			<input name="search" type="text" placeholder="Search content..."/>
 			<img src="{{ asset('imgs/search.svg') }}"/>
-		</form>
+		</div>
 		<a class="shadow button" href="{{ path('series_index') }}">Browse</a>
-	</header>
+	</form>
 
 	<div id="best-serie" class="influx-container shadow">
 		<img src="{{ path('series_poster', {'id': best.id}) }}"/>

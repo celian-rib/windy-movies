@@ -36,7 +36,7 @@
     align-items: center;
     justify-content: space-between;
 }
-#search-header > form {
+#search-header .form-input-container {
     height: 40px;
     width: fit-content;
     border-radius: 30px;
@@ -58,19 +58,31 @@
     padding: 0 2em 0 2em;
 }
 
-#search-header > form > input {
+#search-header .form-input-container > input {
     background-color: transparent;
     color: white;
     transition: width 1s;
     width: 20vw;
 }
 
-#search-header > form > img {
+#search-header .form-input-container:nth-of-type(n+2){
+    margin-left: 2em;
+}
+
+#search-header select {
+    background-color: transparent;
+    color: white;
+    transition: width 1s;
+    margin-right: 1em;
+    min-width: 200px;
+}
+
+#search-header .form-input-container > img {
     height: 40%;
     margin-right: 20px;
 }
 
-#search-header > form >input:focus {
+#search-header .form-input-container >input:focus {
     width: 30vw;
 }
 
