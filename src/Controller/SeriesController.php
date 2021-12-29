@@ -20,25 +20,33 @@ class SeriesController extends AbstractController
     #[Route('/', name: 'series_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
-        $series = [];
-        if ($request->query->get('search')) {
-            $query = $entityManager->createQuery("SELECT s FROM App\Entity\Series s WHERE s.title like ?1");
-            $query->setParameter(1, '%' . $request->query->get('search') . '%');
-            $series = $query->getResult();
-        } else {
-            $series = $entityManager
-                ->getRepository(Series::class)
-                ->findBy([], null, 100);
-        }
+        $search_filter = $request->query->get('search');
+        $genre_filter = $request->query->get('genre');
+        $rating_filter = $request->query->get('genre');
 
-        $genres = $entityManager->getRepository(Genre::class)->findAll();
-
-        $ratings = ["Less than 5/10", "More than 5/10", "More than 9/10"];
+        $query = $entityManager
+            ->createQueryBuilder()
+            ->select('s')
+            ->from(Series::class, 's');
+        if (isset($search_filter))
+            $query
+                ->andWhere('s.title like :search')
+                ->setParameter('search', '%' . ($search_filter ?? 'title') . '%');
+        if (isset($genre_filter))
+            $query
+                ->join('s.genre', 'g')
+                ->andWhere('g.id = :genre')
+                ->setParameter('genre', $genre_filter);
+        // if (isset($rating_filter)) // TO DO
+        //     $query
+        //         ->join('s.genre', 'g')
+        //         ->andWhere('g.id = :genre')
+        //         ->setParameter('genre', $genre_filter);
 
         return $this->render('series/browse_series.html.twig', [
-            'series' => $series,
-            'genres' => $genres,
-            'ratings' => $ratings,
+            'series' => $query->getQuery()->getResult(),
+            'genres' => $entityManager->getRepository(Genre::class)->findAll(),
+            'ratings' => ["Less than 5/10", "More than 5/10", "More than 9/10"],
         ]);
     }
 

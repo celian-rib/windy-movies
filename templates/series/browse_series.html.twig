@@ -17,7 +17,7 @@
 {% block app %}
 	<form id="search-header" style="justify-content: flex-start;" class="influx-container" action="{{ path('series_index') }}" method="GET">
 		<div class="form-input-container shadow">
-			<input value="{{ curr_search ? curr_search : '' }}" name="search" type="text" placeholder="Search content..."/>
+			<input value="{{ curr_search ? curr_search }}" name="search" type="text" placeholder="Search content..."/>
 			<img src="{{ asset('imgs/search.svg') }}"/>
 		</div>
 		<div class="form-input-container">
@@ -42,9 +42,9 @@
 	</form>
 
 	<h1 class="separator">{{ has_filter ? "Search results" : "Browse series" }}</h1>
-	<div style="{{ series|length == 0 ? "flex-direction: column; min-height: 200px" }}"class="influx-container slot-background">
+	<div style="{{ series|length == 0 ? "flex-direction: column; min-height: 200px" }}" class="influx-container shadow slot-background">
 		{% if series|length == 0 %}
-			<h1>Oups... No result found</h1>
+			<h1>Oops... No result found</h1>
 			<a href="{{ path('series_index') }}" class="button orange-highlight">See all series</a>
 		{% endif %}
 		{% for s in series %}
