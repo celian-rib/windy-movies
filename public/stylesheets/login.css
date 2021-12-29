@@ -37,11 +37,6 @@
     margin-top: 1em;
 }
 
-#submit-container > input {
-    background-color: #ff9c38;
-    box-shadow: 0px 0px 26px 0px #ff9c3869;
-}
-
 #error {
     padding: 2em 3em;
     color: rgb(252, 135, 135);

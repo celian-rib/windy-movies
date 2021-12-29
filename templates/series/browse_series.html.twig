@@ -12,6 +12,7 @@
 {% set curr_search = app.request.get('search') %}
 {% set curr_genre = app.request.get('genre') %}
 {% set curr_rating = app.request.get('rating') %}
+{% set has_filter = curr_search is not null or curr_genre is not null or curr_rating is not null %}
 
 {% block app %}
 	<form id="search-header" style="justify-content: flex-start;" class="influx-container" action="{{ path('series_index') }}" method="GET">
@@ -19,7 +20,7 @@
 			<input value="{{ curr_search ? curr_search : '' }}" name="search" type="text" placeholder="Search content..."/>
 			<img src="{{ asset('imgs/search.svg') }}"/>
 		</div>
-		<div class="form-input-container shadow">
+		<div class="form-input-container">
 			<select onchange="this.form.submit()" name="genre">
 				<option value="" {{ curr_genre == null ? 'selected' }} disabled>Filter by genre</option>
 				{% for genre in genres %}
@@ -27,7 +28,7 @@
 				{% endfor %}
 			</select>
 		</div>
-		<div class="form-input-container shadow">
+		<div class="form-input-container">
 			<select onchange="this.form.submit()" name="rating">
 				<option value="" {{ curr_rating == null ? 'selected' }} disabled>Filter by rating</option>
 				{% for rate in ratings %}
@@ -35,21 +36,17 @@
 				{% endfor %}
 			</select>
 		</div>
-		{% if curr_search is not null or curr_genre is not null or curr_rating is not null %}
+		{% if has_filter %}
 			<a style="margin-left: 3em;" href="{{ path('series_index') }}" class="button shadow">Clear filters</a>
 		{% endif %}
 	</form>
-	{# 
-		{% if app.request.get('search') %}
-			<div class="influx-container separator">
-				<h1>Results for "{{  app.request.get('search') }}"</h1>
-				<a class="shadow button" href="{{ path('series_index') }}">clear</a>
-			</div>
-		{% else %} #}
-	<h1 class="separator">Series</h1>
-	{# {% endif %} #}
 
-	<div class="influx-container slot-background">
+	<h1 class="separator">{{ has_filter ? "Search results" : "Browse series" }}</h1>
+	<div style="{{ series|length == 0 ? "flex-direction: column; min-height: 200px" }}"class="influx-container slot-background">
+		{% if series|length == 0 %}
+			<h1>Oups... No result found</h1>
+			<a href="{{ path('series_index') }}" class="button orange-highlight">See all series</a>
+		{% endif %}
 		{% for s in series %}
 			<a href="{{ path('series_show', {'id': s.id}) }}" class="serie-item">
 				<img src="{{ path('series_poster', {'id': s.id}) }}"/>
