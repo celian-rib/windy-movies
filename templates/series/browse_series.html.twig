@@ -1,0 +1,50 @@
+{% extends 'nav.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('stylesheets/content.css') }}" rel="stylesheet">
+	<link href="{{ asset('stylesheets/serie-item.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Browse
+{% endblock %}
+
+{% block app %}
+	<header id="search-header" class="influx-container">
+		<form action="{{ path('series_index') }}" method="GET" class="shadow">
+			<input name="search" type="text" placeholder="Search content..."/>
+			<img src="{{ asset('imgs/search.svg') }}"/>
+		</form>
+	    {# {{ form_start(registrationForm) }} #}
+		<form action="{{ path('series_index') }}" method="GET" class="shadow">
+			<select onchange="this.form.submit()" id="cars" name="cars">
+				<option value="volvo">Volvo</option>
+				<option value="saab">Saab</option>
+				<option value="fiat">Fiat</option>
+				<option value="audi">Audi</option>
+			</select>
+		</form>
+	    {# {{ form_end(registrationForm) }} #}
+	</header>
+
+	{% if app.request.get('search') %}
+		<div class="influx-container separator">
+			<h1>Results for "{{  app.request.get('search') }}"</h1>
+			<a class="shadow button" href="{{ path('series_index') }}">clear</a>
+		</div>
+	{% else %}
+		<h1 class="separator">Series</h1>
+	{% endif %}
+
+	<div class="influx-container slot-background">
+		{% for s in series %}
+			<a href="{{ path('series_show', {'id': s.id}) }}" class="serie-item">
+				<img src="{{ path('series_poster', {'id': s.id}) }}"/>
+				<div class="title-container">
+					<h1 class="fade-txt">{{ s.title }}</h1>
+					<p class="fade-txt">{{ s.yearStart }}</p>
+				</div>
+			</a>
+		{% endfor %}
+	</div>
+{% endblock %}

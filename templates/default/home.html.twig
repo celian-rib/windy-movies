@@ -5,12 +5,12 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-	<link href="{{ asset('stylesheets/home.css') }}" rel="stylesheet">
+	<link href="{{ asset('stylesheets/content.css') }}" rel="stylesheet">
 	<link href="{{ asset('stylesheets/serie-item.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block app %}
-	<header id="home-header" class="influx-container">
+	<header id="search-header" class="influx-container">
 		<form action="{{ path('series_index') }}" method="GET" class="shadow">
 			<input name="search" type="text" placeholder="Search content..."/>
 			<img src="{{ asset('imgs/search.svg') }}"/>
@@ -28,7 +28,7 @@
 	</div>
 
 	<h1 class="separator">Recommended</h1>
-	<div id="top-5" class="influx-container shadow">
+	<div class="influx-container shadow slot-background">
 		{% for s in top_5 %}
 			<a href="{{ path('series_show', {'id': s.id}) }}" class="serie-item">
 				<img src="{{ path('series_poster', {'id': s.id}) }}"/>
@@ -41,7 +41,7 @@
 	</div>
 
 	<h1 class="separator">Trending</h1>
-	<div id="trending" class="influx-container">
+	<div class="influx-container slot-background">
 		{% for s in trending %}
 			<a href="{{ path('series_show', {'id': s.id}) }}" class="serie-item">
 				<img src="{{ path('series_poster', {'id': s.id}) }}"/>

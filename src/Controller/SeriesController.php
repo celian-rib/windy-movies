@@ -30,7 +30,7 @@ class SeriesController extends AbstractController
             ->findBy([], null, 100);
         }
 
-        return $this->render('series/index.html.twig', [
+        return $this->render('series/browse_series.html.twig', [
             'series' => $series
         ]);
     }

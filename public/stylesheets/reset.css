@@ -53,3 +53,13 @@ a {
 	color: white;
 	text-decoration: none;
 }
+input {
+	color: white;
+}
+input:focus {
+    outline: none;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+	transition: background-color 600000s 0s, color 600000s 0s;
+}
