@@ -12,9 +12,11 @@
 {% set curr_search = app.request.get('search') %}
 {% set curr_genre = app.request.get('genre') %}
 {% set curr_rating = app.request.get('rating') %}
+{% set offset = app.request.get('offset') %}
 {% set has_filter = curr_search is not null or curr_genre is not null or curr_rating is not null %}
 
 {% block app %}
+
 	<form id="search-header" style="justify-content: flex-start;" class="influx-container" action="{{ path('series_index') }}" method="GET">
 		<div class="form-input-container shadow">
 			<input value="{{ curr_search ? curr_search }}" name="search" type="text" placeholder="Search content..."/>
@@ -31,8 +33,13 @@
 		<div class="form-input-container">
 			<select onchange="this.form.submit()" name="rating">
 				<option value="" {{ curr_rating == null ? 'selected' }} disabled>Filter by rating</option>
-				{% for rate in ratings %}
-					<option {{ curr_rating == rate ? 'selected' }} value="{{ rate }}">{{ rate }}</option>
+				{% for i in range(0, 4) %}
+					<option {{ curr_rating != null and curr_rating == i ? 'selected' }} value="{{ i }}">
+						{% for i in range(0, i) %}★
+						{% endfor %}
+						{% for i in range(i, 4) %}☆
+						{% endfor %}
+					</option>
 				{% endfor %}
 			</select>
 		</div>
@@ -42,19 +49,22 @@
 	</form>
 
 	<h1 class="separator">{{ has_filter ? "Search results" : "Browse series" }}</h1>
+	<div class="influx-container">
+		{% if offset > 0 %}
+			<a href={{ path('series_index', { 'offset': offset - 1, 'rating' : curr_rating, 'search' : curr_search, 'genre' : curr_genre } ) }} class="button shadow">{{ "<" }}</a>
+		{% endif %}
+		{% if not is_last %}
+			<a href={{path('series_index', {'offset': offset + 1,'rating': curr_rating,'search': curr_search,'genre': curr_genre} ) }} class="button shadow">{{ ">" }}</a>
+		{% endif %}
+	</div>
+
 	<div style="{{ series|length == 0 ? "flex-direction: column; min-height: 200px" }}" class="influx-container shadow slot-background">
 		{% if series|length == 0 %}
 			<h1>Oops... No result found</h1>
 			<a href="{{ path('series_index') }}" class="button orange-highlight">See all series</a>
 		{% endif %}
 		{% for s in series %}
-			<a href="{{ path('series_show', {'id': s.id}) }}" class="serie-item">
-				<img src="{{ path('series_poster', {'id': s.id}) }}"/>
-				<div class="title-container">
-					<h1 class="fade-txt">{{ s.title }}</h1>
-					<p class="fade-txt">{{ s.yearStart }}</p>
-				</div>
-			</a>
+			{% include 'series/serie_item.html.twig' with {'serie': s} %}
 		{% endfor %}
 	</div>
 {% endblock %}

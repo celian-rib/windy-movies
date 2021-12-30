@@ -388,10 +388,10 @@ class Series
         return $this;
     }
 
-    public function getRatingsValue(): int 
+    public function getRatingsValue()
     {
-        if(count($this->ratings) == 0)
-            return 0;
+        if(count($this->ratings) < 3) // Need at least 3 reviews
+            return null;
         $total = 0;
         foreach ($this->ratings as $rating)
             $total = $total + $rating->getValue();

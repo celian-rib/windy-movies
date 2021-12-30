@@ -62,12 +62,29 @@ div > a.serie-item:nth-child(n+6) {
     padding: 0 15px 0 15px;
     transform: translateX(-10px);
 }
+
 .fade-txt {
     opacity: 0;
     transform: translateY(10px);
     transition: transform 1s;
 }
-.serie-item:hover .title-container .fade-txt {
+
+.serie-item:hover .fade-txt {
     transform: translateY(0) translateX(0);
     opacity: 1;
+}
+
+.serie-item > .rating {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: flex;
+    transition: transform 2s;
+    transform: translateY(-5px);
+}
+
+.serie-item > .rating > p {
+    margin-left: 5px;
+    font-size: 0.8em;
+    color: #ff9c38;
 }

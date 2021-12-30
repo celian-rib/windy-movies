@@ -30,26 +30,14 @@
 	<h1 class="separator">Recommended</h1>
 	<div class="influx-container shadow slot-background">
 		{% for s in top_5 %}
-			<a href="{{ path('series_show', {'id': s.id}) }}" class="serie-item">
-				<img src="{{ path('series_poster', {'id': s.id}) }}"/>
-				<div class="title-container">
-					<h1 class="fade-txt">{{ s.title }}</h1>
-					<p class="fade-txt">{{ s.yearStart }}</p>
-				</div>
-			</a>
+			{% include 'series/serie_item.html.twig' with {'serie': s} %}
 		{% endfor %}
 	</div>
 
 	<h1 class="separator">Trending</h1>
 	<div class="influx-container slot-background">
 		{% for s in trending %}
-			<a href="{{ path('series_show', {'id': s.id}) }}" class="serie-item">
-				<img src="{{ path('series_poster', {'id': s.id}) }}"/>
-				<div class="title-container">
-					<h1 class="fade-txt">{{ s.title }}</h1>
-					<p class="fade-txt">{{ s.yearStart }}</p>
-				</div>
-			</a>
+			{% include 'series/serie_item.html.twig' with {'serie': s} %}
 		{% endfor %}
 	</div>
 

@@ -1,0 +1,16 @@
+{# {% set rating = serie.getRatingsValue() %} #}
+{% set rating = 7 %}
+<a href="{{ path('series_show', {'id': serie.id}) }}" class="serie-item">
+	<img src="{{ path('series_poster', {'id': serie.id}) }}"/>
+	<div class="title-container">
+		<h1 class="fade-txt">{{ serie.title }}</h1>
+		<p class="fade-txt">{{ serie.yearStart }}</p>
+	</div>
+	{% if rating != null %}
+		<div class="rating fade-txt">
+			{% for i in range(0, 4) %}
+				<p>{{ i < rating / 2 ? "★" : "☆" }}</p>
+			{% endfor %}
+		</div>
+	{% endif %}
+</a>

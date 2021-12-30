@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'nav.html.twig' %}
 
 {% block title %}Series
 {% endblock %}
@@ -6,7 +6,7 @@
 {% block app %}
 	<h1>Serie</h1>
 
-    
+
 	<table class="table">
 		<tbody>
 			<tr>
@@ -68,7 +68,11 @@
 	</table>
 
 	<a href="{{ path('series_index') }}">back to list</a>
-
+	{% if app.user %}
+		<form method="POST">
+			<input type="submit" value="{{ is_following ? "Unfollow" : "Follow" }}" class="button shadow"/>
+		</form>
+	{% endif %}
 	{# <a href="{{ path('series_edit', {'id': series.id}) }}">edit</a> #}
 
 	{# {{ include('series/_delete_form.html.twig') }} #}

@@ -3,13 +3,13 @@
 TODO (Non trié)
 
 - [ ] Page d'accueil présentant le site (+ Suggestion de séries)
-- [ ] Menu de navigation
+- [x] Menu de navigation
 - [ ] Page à propos (Voir sujet)
-- [ ] Page Séries paginée
-- [ ] Page Série filtres par genre
-- [ ] Page info sur une séries (Saisons > épisodes)
+- [x] Page Séries paginée
+- [x] Page Série filtres par genre
+- [x] Page info sur une séries (Saisons > épisodes)
 - [ ] Register (Avec captcha + vérifier champs)
-- [ ] Login
+- [x] Login
 - [ ] Pouvoir noter une série
 - [ ] Pouvoir suivre une série
 - [ ] Page séries suivis
