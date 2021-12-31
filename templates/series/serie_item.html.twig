@@ -1,5 +1,4 @@
-{# {% set rating = serie.getRatingsValue() %} #}
-{% set rating = 7 %}
+{% set rating = serie.getAvgRatingsValue() %}
 <a href="{{ path('series_show', {'id': serie.id}) }}" class="serie-item">
 	<img src="{{ path('series_poster', {'id': serie.id}) }}"/>
 	<div class="title-container">

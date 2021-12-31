@@ -17,6 +17,8 @@ TODO (Non trié)
 - [ ] Pouvoir supprimer les commentaires en tant qu'admin
 - [ ] Mettre de nouvelles séries dans la base en tant qu'admin
 - [ ] Pouvoir générer des commentaires pour tester
+- [ ] Redirect sur les routes ou on doit être login et que l'on est pas login
+
 
 ***
 
@@ -40,4 +42,9 @@ ssh vjosso@info-ssh1.iut.u-bordeaux.fr -L 7777:info-titania.iut.bx1:3306 -N
 symfony serve
 ```
 
+symfony console make:entity
+
+https://gregwar.com/s3web/img/db.png
+
+http://www.omdbapi.com/?i=tt3896198&apikey=38a1fd74
 

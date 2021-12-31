@@ -26,7 +26,7 @@ class SeriesController extends AbstractController
         $MAX_PER_PAGE = 20;
         $search_filter = $request->query->get('search');
         $genre_filter = $request->query->get('genre');
-        $rating_filter = $request->query->get('genre');
+        $rating_filter = $request->query->get('rating');
 
         $offset = $request->query->get('offset') ?? 0;
         if ($offset < 0)
@@ -49,7 +49,6 @@ class SeriesController extends AbstractController
                 ->setParameter('genre', $genre_filter);
 
         $result_counts = count($query->getQuery()->getResult());
-        
         $query->setFirstResult($offset * $MAX_PER_PAGE)->setMaxResults($MAX_PER_PAGE);
 
         return $this->render('series/browse_series.html.twig', [
@@ -67,18 +66,18 @@ class SeriesController extends AbstractController
 
     #[Route('/{id}', name: 'series_show', methods: ['GET', 'POST'])]
     public function show(Request $request, Series $series, EntityManagerInterface $entityManager): Response
-    {   
+    {
 
         $is_following = false;
         $user = $this->getUser();
-        if($user != null) {
-            foreach($user->getSeries() as $s) {
-                if($s->getId() == $series->getId())
+        if ($user != null) {
+            foreach ($user->getSeries() as $s) {
+                if ($s->getId() == $series->getId())
                     $is_following = true;
             }
-    
-            if($request->isMethod("post")) {
-                if($is_following){
+
+            if ($request->isMethod("post")) {
+                if ($is_following) {
                     $user->removeSeries($series);
                 } else {
                     $user->addSeries($series);

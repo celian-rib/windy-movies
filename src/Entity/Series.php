@@ -121,6 +121,11 @@ class Series
     private $ratings;
 
     /**
+     * @ORM\OneToMany(targetEntity=ExternalRating::class, mappedBy="series", orphanRemoval=true)
+     */
+    private $external_ratings;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -130,6 +135,7 @@ class Series
         $this->genre = new \Doctrine\Common\Collections\ArrayCollection();
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
         $this->ratings = new ArrayCollection();
+        $this->external_ratings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -388,13 +394,46 @@ class Series
         return $this;
     }
 
-    public function getRatingsValue()
+    /**
+     * @return Collection|ExternalRating[]
+     */
+    public function getExternalRatings(): Collection
     {
-        if(count($this->ratings) < 3) // Need at least 3 reviews
-            return null;
+        return $this->external_ratings;
+    }
+
+    public function addExternalRating(ExternalRating $externalRating): self
+    {
+        if (!$this->external_ratings->contains($externalRating)) {
+            $this->external_ratings[] = $externalRating;
+            $externalRating->setSeries($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExternalRating(ExternalRating $externalRating): self
+    {
+        if ($this->external_ratings->removeElement($externalRating)) {
+            // set the owning side to null (unless already changed)
+            if ($externalRating->getSeries() === $this) {
+                $externalRating->setSeries(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAvgRatingsValue()
+    {
+        $count = count($this->ratings) + count($this->external_ratings);
+        if ($count == 0)
+            return 0;
         $total = 0;
-        foreach ($this->ratings as $rating)
-            $total = $total + $rating->getValue();
-        return $total / count($this->ratings);
+        foreach ($this->ratings as $r)
+            $total += $r->getValue();
+        foreach ($this->external_ratings as $er)
+            $total += explode('/', $er->getValue())[0];
+        return $total / $count;
     }
 }
