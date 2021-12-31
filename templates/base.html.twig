@@ -23,6 +23,13 @@
 		{% endblock %}
 	</head>
 	<body>
+		{% set toast = app.request.get('toast') %}
+		{% if toast %}
+			<div class="toast">
+				<h1>{{ toast }}</h1>
+			</div>
+		{% endif %}
+
 		<div id="loading">
 			<img src="{{ asset('imgs/logo.svg') }}"/>
 		</div>

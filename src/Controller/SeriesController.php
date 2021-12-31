@@ -26,7 +26,7 @@ class SeriesController extends AbstractController
         $MAX_PER_PAGE = 20;
         $search_filter = $request->query->get('search');
         $genre_filter = $request->query->get('genre');
-        $rating_filter = $request->query->get('rating');
+        // $rating_filter = $request->query->get('rating');
 
         $offset = $request->query->get('offset') ?? 0;
         if ($offset < 0)

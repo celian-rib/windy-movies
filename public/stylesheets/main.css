@@ -90,3 +90,33 @@ body {
     background: #ffc387;
 }
 
+.toast {
+    z-index: 200;
+
+    position: fixed;
+    bottom: 3em;
+    right: 1em;
+    min-width: 200px;
+    transform: translateX(400px);
+
+    padding: 2em 3em;
+    border-radius: 15px;
+
+    background-color: rgb(173, 255, 153);
+    color: rgb(48, 48, 48);
+
+    animation: toast-inout 5s ease-in forwards 1s;
+}
+
+@keyframes toast-inout {
+    0% {
+        transform: translateX(400px);
+    }
+    5%, 95% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(400px);
+        display: none;
+    }
+}
