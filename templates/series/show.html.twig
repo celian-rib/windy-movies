@@ -1,7 +1,7 @@
 {% extends 'nav.html.twig' %}
 
 {% block title %}
-	{{ series.title }}
+	{{ serie.title }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -14,10 +14,10 @@
 
 {% block app %}
 	<div id="serie-header">
-		<img src="{{ path('series_poster', {'id': series.id}) }}"/>
+		<img src="{{ path('series_poster', {'id': serie.id}) }}"/>
 		<span></span>
 		<div>
-			<h1>{{ series.title }}</h1>
+			<h1>{{ serie.title }}</h1>
 			{% if app.user %}
 				<form method="POST">
 					<input type="hidden" name="toast" value="{{ is_following ? "Serie removed from your library" : "Serie added to your library" }}">
@@ -30,7 +30,7 @@
 	<div id="header-spacer"></div>
 
 	<div id="plot" class="influx-container">
-		{{ series.plot }}
+		{{ serie.plot }}
 	</div>
 
 	<div id="serie-info" class="influx-container slot-background shadow">
@@ -38,112 +38,120 @@
 			<p>
 				<span>Awards :
 				</span>
-				{{ series.awards }}</p>
+				{{ serie.awards }}</p>
 			<p>
 				<span>Year :
 				</span>
-				{{ series.yearStart }}
-				{{ series.yearEnd ?? "" }}</p>
+				{{ serie.yearStart }}
+				{{ serie.yearEnd ?? "" }}</p>
 			<p>
 				<span>Seasons :
 				</span>
-				{{ seasons|length }}</p>
+				{{ serie.getSeasons()|length }}</p>
 			<p>
 				<span>Director :
 				</span>
-				{{ series.director ?? "unknown" }}</p>
+				{{ serie.director ?? "unknown" }}</p>
 			<div id="rating-slot">
 				<span>Rating :
 				</span>
 				{% for i in range(1, 5) %}
-					<p>{{ i < series.getAvgRatingsValue() / 2 ? "★" : "☆" }}</p>
+					<p>{{ i < serie.getAvgRatingsValue() / 2 ? "★" : "☆" }}</p>
 				{% endfor %}
 			</div>
 		</div>
-		<img src="{{ path('series_poster', {'id': series.id}) }}"/>
+		<img src="{{ path('series_poster', {'id': serie.id}) }}"/>
 	</div>
 
-	<form id="search-header" style="justify-content: flex-start;" class="influx-container" action="{{ path('series_show', {'id': series.id }) }}" method="GET">
+	<form id="search-header" style="justify-content: flex-start;" class="influx-container" action="{{ path('series_show', {'id': serie.id }) }}#episodes" method="GET">
 		<div class="form-input-container">
 			<select onchange="this.form.submit()" name="season">
-				{% for season in seasons %}
-					<option {{ curr_season == season[0].number ? 'selected' }} value="{{ season[0].number }}">Season
-						{{ season[0].number }}</option>
+				{% for season in serie.getSeasons() %}
+					<option {{ curr_season == season.number ? 'selected' }} value="{{ season.number }}">Season
+						{{ season.number }}</option>
 				{% endfor %}
 			</select>
 		</div>
 	</form>
 
-	<div id="serie-info" class="influx-container slot-background shadow">
-		{% for season in seasons %}
-			({{ season[1] }}
+	<div id="episodes" class="influx-container slot-background shadow">
+		{% for episode in serie.getSeason(curr_season).getEpisodes() %}
+			<div class="episode-item">
+				<div>
+					<p>#{{ episode.getNumber() }}</p>
+					<h1>{{ episode.getTitle() }}</h1>
+				</div>
+				<form method="POST">
+					<input type="submit" value="+ Add to library" class="button" />
+				</form>
+			</div>
 		{% endfor %}
 	</div>
 
 	{# 
-					<table class="table">
-						<tbody>
-							<tr>
-								<th>Id</th>
-								<td>{{ series.id }}</td>
-							</tr>
-							<tr>
-								<th>Title</th>
-								<td>{{ series.title }}</td>
-							</tr>
-							<tr>
-								<th>Plot</th>
-								<td>{{ series.plot }}</td>
-							</tr>
-							<tr>
-								<th>Season</th>
-								<td>
-									<ul>
-										{% for season in seasons %}
-											<li>
-												{{ season[0].number }}
-												({{ season[1] }}
-												épisodes)
-											</li>
-										{% endfor %}
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<th>Poster</th>
-								<td>
-									<img src="{{ path('series_poster', {'id': series.id}) }}">
-								</td>
-							</tr>
-							<tr>
-								<th>Director</th>
-								<td>{{ series.director }}</td>
-							</tr>
-							<tr>
-								<th>YoutubeTrailer</th>
-								<td>
-									<iframe width="420" height="300" src="{{ series.getYoutubeEmbed() }}"></iframe>
-								</td>
-				
-							</tr>
-							<tr>
-								<th>Awards</th>
-								<td>{{ series.awards }}</td>
-							</tr>
-							<tr>
-								<th>YearStart</th>
-								<td>{{ series.yearStart }}</td>
-							</tr>
-							<tr>
-								<th>YearEnd</th>
-								<td>{{ series.yearEnd }}</td>
-							</tr>
-						</tbody>
-					</table> #}
+							<table class="table">
+								<tbody>
+									<tr>
+										<th>Id</th>
+										<td>{{ serie.id }}</td>
+									</tr>
+									<tr>
+										<th>Title</th>
+										<td>{{ serie.title }}</td>
+									</tr>
+									<tr>
+										<th>Plot</th>
+										<td>{{ serie.plot }}</td>
+									</tr>
+									<tr>
+										<th>Season</th>
+										<td>
+											<ul>
+												{% for season in seasons %}
+													<li>
+														{{ season[0].number }}
+														({{ season[1] }}
+														épisodes)
+													</li>
+												{% endfor %}
+											</ul>
+										</td>
+									</tr>
+									<tr>
+										<th>Poster</th>
+										<td>
+											<img src="{{ path('series_poster', {'id': serie.id}) }}">
+										</td>
+									</tr>
+									<tr>
+										<th>Director</th>
+										<td>{{ serie.director }}</td>
+									</tr>
+									<tr>
+										<th>YoutubeTrailer</th>
+										<td>
+											<iframe width="420" height="300" src="{{ serie.getYoutubeEmbed() }}"></iframe>
+										</td>
+						
+									</tr>
+									<tr>
+										<th>Awards</th>
+										<td>{{ serie.awards }}</td>
+									</tr>
+									<tr>
+										<th>YearStart</th>
+										<td>{{ serie.yearStart }}</td>
+									</tr>
+									<tr>
+										<th>YearEnd</th>
+										<td>{{ serie.yearEnd }}</td>
+									</tr>
+								</tbody>
+							</table> #}
 
 {# <a href="{{ path('series_index') }}">back to list</a> #}
 
-	{# <a href="{{ path('series_edit', {'id': series.id}) }}">edit</a> #}
+	{# <a href="{{ path('series_edit', {'id': serie.id}) }}">edit</a> #}
 
 	{# {{ include('series/_delete_form.html.twig') }} #}
 {% endblock %}

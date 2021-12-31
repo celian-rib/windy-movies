@@ -87,26 +87,8 @@ class SeriesController extends AbstractController
             }
         }
 
-        $seasons = $entityManager
-            ->getRepository(Season::class)
-            ->findBy(
-                ['series' => $series->getId()],
-                ['number' => 'ASC']
-            );
-        $seasons_with_epcount = [];
-        foreach ($seasons as $s) {
-            $ep_count = count($entityManager
-                ->getRepository(Episode::class)
-                ->findBy(
-                    ['season' => $s->getId()],
-                    ['number' => 'ASC']
-                ));
-            array_push($seasons_with_epcount, [$s, $ep_count]);
-        }
-
         return $this->render('series/show.html.twig', [
-            'series' => $series,
-            'seasons' => $seasons_with_epcount,
+            'serie' => $series,
             'is_following' => $is_following,
         ]);
     }

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Value;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -126,6 +127,11 @@ class Series
     private $external_ratings;
 
     /**
+     * @ORM\OneToMany(targetEntity=Season::class, mappedBy="series", orphanRemoval=true)
+     */
+    private $seasons;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -136,6 +142,7 @@ class Series
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->external_ratings = new ArrayCollection();
+        $this->seasons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -434,7 +441,7 @@ class Series
             foreach ($this->ratings as $r)
                 $total += $r->getValue();
             foreach ($this->external_ratings as $er) {
-                if(str_contains($er->getValue(), "%")) // If notation is in %
+                if (str_contains($er->getValue(), "%")) // If notation is in %
                     $total += ((float) substr($er->getValue(), 0, -1)) / 10;
                 else // If notation is /10
                     $total += explode('/', $er->getValue())[0];
@@ -443,5 +450,45 @@ class Series
         } catch (\Throwable $th) { // Catch notation parsing errors
             return null;
         }
+    }
+
+    /**
+     * @return Collection|Season[]
+     */
+    public function getSeasons(): Collection
+    {
+        $sort = new Criteria(null, ['number' => Criteria::ASC]);
+        return $this->seasons->matching($sort);
+    }
+
+    public function getSeason($index)
+    {
+        foreach ($this->seasons as $s) {
+            if ($s->getNumber() == $index)
+                return $s;
+        }
+        return $this->seasons[0];
+    }
+
+    public function addSeason(Season $season): self
+    {
+        if (!$this->seasons->contains($season)) {
+            $this->seasons[] = $season;
+            $season->setSeries($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeason(Season $season): self
+    {
+        if ($this->seasons->removeElement($season)) {
+            // set the owning side to null (unless already changed)
+            if ($season->getSeries() === $this) {
+                $season->setSeries(null);
+            }
+        }
+
+        return $this;
     }
 }

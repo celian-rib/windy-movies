@@ -59,21 +59,16 @@ class Episode
     private $number;
 
     /**
-     * @var \Season
-     *
-     * @ORM\ManyToOne(targetEntity="Season")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="season_id", referencedColumnName="id")
-     * })
-     */
-    private $season;
-
-    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="User", mappedBy="episode")
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Season::class, inversedBy="episodes")
+     */
+    private $season;
 
     /**
      * Constructor
@@ -148,18 +143,6 @@ class Episode
         return $this;
     }
 
-    public function getSeason(): ?Season
-    {
-        return $this->season;
-    }
-
-    public function setSeason(?Season $season): self
-    {
-        $this->season = $season;
-
-        return $this;
-    }
-
     /**
      * @return Collection|User[]
      */
@@ -183,6 +166,18 @@ class Episode
         if ($this->user->removeElement($user)) {
             $user->removeEpisode($this);
         }
+
+        return $this;
+    }
+
+    public function getSeason(): ?Season
+    {
+        return $this->season;
+    }
+
+    public function setSeason(?Season $season): self
+    {
+        $this->season = $season;
 
         return $this;
     }

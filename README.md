@@ -1,5 +1,7 @@
 [Sujet](https://gregwar.com/s3web/project.html#title.1)
 
+![db](https://gregwar.com/s3web/img/db.png)
+
 TODO (Non trié)
 
 - [ ] Page d'accueil présentant le site (+ Suggestion de séries)
