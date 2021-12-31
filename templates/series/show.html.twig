@@ -19,7 +19,7 @@
 		<div>
 			<h1>{{ serie.title }}</h1>
 			{% if app.user %}
-				<form method="POST">
+				<form method="POST" action="#serie-header">
 					<input type="hidden" name="toast" value="{{ is_following ? "Serie removed from your library" : "Serie added to your library" }}">
 					<input type="submit" value="{{ is_following ? "Unfollow" : "Follow" }}" class="button {{ is_following ? " shadow" : " orange-highlight" }}"/>
 				</form>
@@ -63,7 +63,7 @@
 		<img src="{{ path('series_poster', {'id': serie.id}) }}"/>
 	</div>
 
-	<form id="search-header" style="justify-content: flex-start;" class="influx-container" action="{{ path('series_show', {'id': serie.id }) }}#episodes" method="GET">
+	<form id="search-header" style="justify-content: flex-start;" class="influx-container" action="#episodes" method="GET">
 		<div class="form-input-container">
 			<select onchange="this.form.submit()" name="season">
 				{% for season in serie.getSeasons() %}
