@@ -1,78 +1,148 @@
 {% extends 'nav.html.twig' %}
 
-{% block title %}Series
+{% block title %}
+	{{ series.title }}
 {% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('stylesheets/content.css') }}" rel="stylesheet">
+	<link href="{{ asset('stylesheets/seriepage.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% set curr_season = app.request.get('season') ?? 1 %}
+
 {% block app %}
-	<h1>Serie</h1>
+	<div id="serie-header">
+		<img src="{{ path('series_poster', {'id': series.id}) }}"/>
+		<span></span>
+		<div>
+			<h1>{{ series.title }}</h1>
+			{% if app.user %}
+				<form method="POST">
+					<input type="hidden" name="toast" value="{{ is_following ? "Serie removed from your library" : "Serie added to your library" }}">
+					<input type="submit" value="{{ is_following ? "Unfollow" : "Follow" }}" class="button {{ is_following ? " shadow" : " orange-highlight" }}"/>
+				</form>
+			{% endif %}
+		</div>
+	</div>
 
+	<div id="header-spacer"></div>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ series.id }}</td>
-			</tr>
-			<tr>
-				<th>Title</th>
-				<td>{{ series.title }}</td>
-			</tr>
-			<tr>
-				<th>Plot</th>
-				<td>{{ series.plot }}</td>
-			</tr>
-			<tr>
-				<th>Season</th>
-				<td>
-					<ul>
-						{% for season in seasons %}
-							<li>
-								{{ season[0].number }}
-								({{ season[1] }}
-								épisodes)
-							</li>
-						{% endfor %}
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<th>Poster</th>
-				<td>
-					<img src="{{ path('series_poster', {'id': series.id}) }}">
-				</td>
-			</tr>
-			<tr>
-				<th>Director</th>
-				<td>{{ series.director }}</td>
-			</tr>
-			<tr>
-				<th>YoutubeTrailer</th>
-				<td>
-					<iframe width="420" height="300" src="{{ series.getYoutubeEmbed() }}"></iframe>
-				</td>
+	<div id="plot" class="influx-container">
+		{{ series.plot }}
+	</div>
 
-			</tr>
-			<tr>
-				<th>Awards</th>
-				<td>{{ series.awards }}</td>
-			</tr>
-			<tr>
-				<th>YearStart</th>
-				<td>{{ series.yearStart }}</td>
-			</tr>
-			<tr>
-				<th>YearEnd</th>
-				<td>{{ series.yearEnd }}</td>
-			</tr>
-		</tbody>
-	</table>
+	<div id="serie-info" class="influx-container slot-background shadow">
+		<div>
+			<p>
+				<span>Awards :
+				</span>
+				{{ series.awards }}</p>
+			<p>
+				<span>Year :
+				</span>
+				{{ series.yearStart }}
+				{{ series.yearEnd ?? "" }}</p>
+			<p>
+				<span>Seasons :
+				</span>
+				{{ seasons|length }}</p>
+			<p>
+				<span>Director :
+				</span>
+				{{ series.director ?? "unknown" }}</p>
+			<div id="rating-slot">
+				<span>Rating :
+				</span>
+				{% for i in range(1, 5) %}
+					<p>{{ i < series.getAvgRatingsValue() / 2 ? "★" : "☆" }}</p>
+				{% endfor %}
+			</div>
+		</div>
+		<img src="{{ path('series_poster', {'id': series.id}) }}"/>
+	</div>
 
-	<a href="{{ path('series_index') }}">back to list</a>
-	{% if app.user %}
-		<form method="POST">
-			<input type="submit" value="{{ is_following ? "Unfollow" : "Follow" }}" class="button shadow"/>
-		</form>
-	{% endif %}
+	<form id="search-header" style="justify-content: flex-start;" class="influx-container" action="{{ path('series_show', {'id': series.id }) }}" method="GET">
+		<div class="form-input-container">
+			<select onchange="this.form.submit()" name="season">
+				{% for season in seasons %}
+					<option {{ curr_season == season[0].number ? 'selected' }} value="{{ season[0].number }}">Season
+						{{ season[0].number }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</form>
+
+	<div id="serie-info" class="influx-container slot-background shadow">
+		{% for season in seasons %}
+			({{ season[1] }}
+		{% endfor %}
+	</div>
+
+	{# 
+					<table class="table">
+						<tbody>
+							<tr>
+								<th>Id</th>
+								<td>{{ series.id }}</td>
+							</tr>
+							<tr>
+								<th>Title</th>
+								<td>{{ series.title }}</td>
+							</tr>
+							<tr>
+								<th>Plot</th>
+								<td>{{ series.plot }}</td>
+							</tr>
+							<tr>
+								<th>Season</th>
+								<td>
+									<ul>
+										{% for season in seasons %}
+											<li>
+												{{ season[0].number }}
+												({{ season[1] }}
+												épisodes)
+											</li>
+										{% endfor %}
+									</ul>
+								</td>
+							</tr>
+							<tr>
+								<th>Poster</th>
+								<td>
+									<img src="{{ path('series_poster', {'id': series.id}) }}">
+								</td>
+							</tr>
+							<tr>
+								<th>Director</th>
+								<td>{{ series.director }}</td>
+							</tr>
+							<tr>
+								<th>YoutubeTrailer</th>
+								<td>
+									<iframe width="420" height="300" src="{{ series.getYoutubeEmbed() }}"></iframe>
+								</td>
+				
+							</tr>
+							<tr>
+								<th>Awards</th>
+								<td>{{ series.awards }}</td>
+							</tr>
+							<tr>
+								<th>YearStart</th>
+								<td>{{ series.yearStart }}</td>
+							</tr>
+							<tr>
+								<th>YearEnd</th>
+								<td>{{ series.yearEnd }}</td>
+							</tr>
+						</tbody>
+					</table> #}
+
+{# <a href="{{ path('series_index') }}">back to list</a> #}
+
 	{# <a href="{{ path('series_edit', {'id': series.id}) }}">edit</a> #}
 
 	{# {{ include('series/_delete_form.html.twig') }} #}
