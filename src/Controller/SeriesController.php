@@ -54,6 +54,7 @@ class SeriesController extends AbstractController
         return $this->render('series/browse_series.html.twig', [
             'series' => $query->getQuery()->getResult(),
             'genres' => $entityManager->getRepository(Genre::class)->findAll(),
+            'page_count' => ceil($result_counts / $MAX_PER_PAGE),
             'is_last' => (($offset + 1) * $MAX_PER_PAGE) >= $result_counts,
         ]);
     }

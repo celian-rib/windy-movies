@@ -12,8 +12,11 @@
 {% set curr_search = app.request.get('search') %}
 {% set curr_genre = app.request.get('genre') %}
 {% set curr_rating = app.request.get('rating') %}
-{% set offset = app.request.get('offset') %}
 {% set has_filter = curr_search is not null or curr_genre is not null or curr_rating is not null %}
+
+{% set offset = app.request.get('offset') %}
+{% set left_offset_url = path('series_index', { 'offset': offset - 1, 'rating' : curr_rating, 'search' : curr_search, 'genre' : curr_genre } ) %}
+{% set right_offset_url = path('series_index', {'offset': offset + 1,'rating': curr_rating,'search': curr_search,'genre': curr_genre} ) %}
 
 {% block app %}
 
@@ -33,14 +36,15 @@
 		<div class="form-input-container">
 			<select onchange="this.form.submit()" name="rating">
 				<option value="" {{ curr_rating == null ? 'selected' }} disabled>Filter by rating</option>
-				{% for i in range(0, 4) %}
+				{% for i in range(1, 4) %}
 					<option {{ curr_rating != null and curr_rating == i ? 'selected' }} value="{{ i }}">
-						{% for i in range(0, i) %}★
+						{% for s in range(1, i) %}★
 						{% endfor %}
-						{% for i in range(i, 4) %}☆
+						{% for s in range(i + 1 , 5) %}☆
 						{% endfor %}
 					</option>
 				{% endfor %}
+				<option {{ curr_rating != null and curr_rating == 5 ? 'selected' }} value="5">★ ★ ★ ★ ★</option>
 			</select>
 		</div>
 		{% if has_filter %}
@@ -48,15 +52,17 @@
 		{% endif %}
 	</form>
 
-	<h1 class="separator">{{ has_filter ? "Search results" : "Browse series" }}</h1>
-	<div class="influx-container">
-		{% if offset > 0 %}
-			<a href={{ path('series_index', { 'offset': offset - 1, 'rating' : curr_rating, 'search' : curr_search, 'genre' : curr_genre } ) }} class="button shadow">{{ "<" }}</a>
-		{% endif %}
-		{% if not is_last %}
-			<a href={{path('series_index', {'offset': offset + 1,'rating': curr_rating,'search': curr_search,'genre': curr_genre} ) }} class="button shadow">{{ ">" }}</a>
-		{% endif %}
+	<div style="margin-bottom: 0; justify-content: space-between;" class="influx-container">
+		<h1 class="separator" style="margin: 0; margin-left: 3em;">{{ has_filter ? "Search results" : "Browse series" }}</h1>
+		<div style="display: flex; align-items: center; width: 250px; justify-content: space-evenly;">
+			<a style="{{ offset <= 0 ? "opacity: 0.4; pointer-events: none;"}}" href={{ left_offset_url }} class="button orange-highlight }}">{{ "<" }}</a>
+			<h1>{{ offset == null ? 1 : offset + 1 }}
+				/
+				{{ page_count }}</h1>
+			<a style="{{ is_last ? "opacity: 0.4; pointer-events: none;"}}" href={{ right_offset_url }} class="button orange-highlight">{{ ">" }}</a>
+		</div>
 	</div>
+
 
 	<div style="{{ series|length == 0 ? "flex-direction: column; min-height: 200px" }}" class="influx-container shadow slot-background">
 		{% if series|length == 0 %}

@@ -426,14 +426,22 @@ class Series
 
     public function getAvgRatingsValue()
     {
-        $count = count($this->ratings) + count($this->external_ratings);
-        if ($count == 0)
-            return 0;
-        $total = 0;
-        foreach ($this->ratings as $r)
-            $total += $r->getValue();
-        foreach ($this->external_ratings as $er)
-            $total += explode('/', $er->getValue())[0];
-        return $total / $count;
+        try {
+            $count = count($this->ratings) + count($this->external_ratings);
+            if ($count == 0)
+                return 0;
+            $total = 0;
+            foreach ($this->ratings as $r)
+                $total += $r->getValue();
+            foreach ($this->external_ratings as $er) {
+                if(str_contains($er->getValue(), "%")) // If notation is in %
+                    $total += ((float) substr($er->getValue(), 0, -1)) / 10;
+                else // If notation is /10
+                    $total += explode('/', $er->getValue())[0];
+            }
+            return $total / $count;
+        } catch (\Throwable $th) { // Catch notation parsing errors
+            return null;
+        }
     }
 }
