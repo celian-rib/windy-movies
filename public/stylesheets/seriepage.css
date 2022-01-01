@@ -64,16 +64,37 @@
     justify-content: space-between;
 }
 
-#serie-info > div {
+#infos {
     flex-direction: column;
     align-items: flex-start;
     padding: 1.5em;
     padding-left: 10%;
 }
 
-#serie-info > img {
-    max-height: 200px;
+#trailer-poster {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#trailer-poster > div {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#trailer-poster > div > p {
+    width: 60px;
+    background-color: rgba(255, 255, 255, 0.062);
+    justify-content: center;
+    cursor: pointer;
+}
+
+#trailer-poster > img {
+    margin-left: 2em;
     border-radius: 20px;
+    max-height: 200px;
 }
 
 #serie-info > div > p {
@@ -159,4 +180,29 @@
 #review > form > div > select {
     margin: 1em;
     width: fit-content;
+}
+
+#trailer {
+    background-color: rgba(0,0,0,0.8);
+    padding-left: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#trailer > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3em;
+    padding-bottom: 0.7em;
+}
+
+#trailer > div > p {
+    background-color: transparent;
 }
