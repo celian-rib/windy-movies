@@ -75,25 +75,51 @@
 	</form>
 
 	<div id="episodes" class="influx-container slot-background shadow">
-		{% for episode in serie.getSeason(curr_season).getEpisodes() %}
-			<div class="episode-item">
-				<div>
-					<p>#{{ episode.getNumber() }}</p>
-					<h1>{{ episode.getTitle() }}</h1>
+		<div class="influx-container">
+			{% for episode in serie.getSeason(curr_season).getEpisodes() %}
+				<div class="episode-item">
+					<div>
+						<p>#{{ episode.getNumber() }}</p>
+						<h1>{{ episode.getTitle() }}</h1>
+					</div>
+					{% if app.user %}
+						<form id="focus-ep{{ episode.id }}" method="POST" action="#focus-ep{{ episode.id }}">
+							<input type="hidden" name="episode" value="{{ episode.id }}">
+							{% if episode.seenByUser(app.user) %}
+								<input type="hidden" name="toast" value="Episode marked as not watched">
+								<input type="submit" value="Remove from watched" style="color: rgba(255, 255, 255, 0.4)" class="button"/>
+							{% else %}
+								<input type="hidden" name="toast" value="Episode marked as watched">
+								<input type="submit" value="✓ Mark as watched" style="color: #ff9c38" class="button"/>
+							{% endif %}
+						</form>
+					{% endif %}
 				</div>
-				{% if app.user %}
-					<form id="ep{{ episode.id }}" method="POST" action="#ep{{ episode.id }}">
-						<input type="hidden" name="episode" value="{{ episode.id }}">
-						{% if episode.seenByUser(app.user) %}
-							<input type="hidden" name="toast" value="Episode marked as not watched">
-							<input type="submit" value="Remove from watched" style="color: rgba(255, 255, 255, 0.4)" class="button"/>
-						{% else %}
-							<input type="hidden" name="toast" value="Episode marked as watched">
-							<input type="submit" value="✓ Mark as watched" style="color: #ff9c38" class="button"/>
-						{% endif %}
-					</form>
-				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+
+
+	{% set curr_rating = null %}
+	<div id="review" class="influx-container slot-background shadow">
+		<h1>Add your review</h1>
+		<form>
+			<textarea type="text" placeholder="Your review..." required></textarea>
+			<div>
+				<select name="rating" required>
+					<option value="" {{ curr_rating == null ? 'selected' }} disabled>Rating</option>
+					{% for i in range(1, 4) %}
+						<option {{ curr_rating != null and curr_rating == i ? 'selected' }} value="{{ i }}">
+							{% for s in range(1, i) %}★
+							{% endfor %}
+							{% for s in range(i + 1 , 5) %}☆
+							{% endfor %}
+						</option>
+					{% endfor %}
+					<option {{ curr_rating != null and curr_rating == 5 ? 'selected' }} value="5">★ ★ ★ ★ ★</option>
+					<input class="button orange-highlight" type="submit">
+				</select>
 			</div>
-		{% endfor %}
+		</form>
 	</div>
 {% endblock %}

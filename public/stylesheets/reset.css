@@ -57,7 +57,7 @@ input, select {
 	color: white;
 	background-color: transparent;
 }
-input:focus, select:focus {
+input:focus, select:focus, textarea:focus {
     outline: none;
 }
 input:-webkit-autofill,

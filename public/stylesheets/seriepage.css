@@ -94,9 +94,18 @@
     color: #ff9c38;
 }
 
+#episodes > div {
+    flex-direction: column;
+    width: 90%;
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    justify-content: flex-start;
+}
+
 .episode-item {
     width: 100%;
-    padding: 0.5em;
+    padding-top: 0.4em;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -113,4 +122,41 @@
 
 .episode-item input {
     cursor: pointer;
+}
+
+#review {
+    flex-direction: column;
+}
+
+#review > h1  {
+    margin: 1em;
+    font-size: 1.4em;
+}
+
+#review > form {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+#review > form > textarea {
+    background-color: transparent;
+    border: solid rgba(255, 255, 255, 0.226) 2px;
+    border-radius: 20px;
+    padding: 2em;
+    resize: vertical;
+    color: white;
+    font-family: 'Poppins';
+}
+
+#review > form > div {
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#review > form > div > select {
+    margin: 1em;
+    width: fit-content;
 }
