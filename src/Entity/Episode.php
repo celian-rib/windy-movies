@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -159,6 +160,12 @@ class Episode
         }
 
         return $this;
+    }
+
+    public function seenByUser(User $usr) {
+        $sort = new Criteria();
+        $sort->where(Criteria::expr()->eq('id', $usr->getId()));
+        return count($this->user->matching($sort));
     }
 
     public function removeUser(User $user): self

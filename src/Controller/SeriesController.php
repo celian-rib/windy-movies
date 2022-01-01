@@ -68,28 +68,36 @@ class SeriesController extends AbstractController
     #[Route('/{id}', name: 'series_show', methods: ['GET', 'POST'])]
     public function show(Request $request, Series $series, EntityManagerInterface $entityManager): Response
     {
-
-        $is_following = false;
+        /** @var User $user */
         $user = $this->getUser();
-        if ($user != null) {
-            foreach ($user->getSeries() as $s) {
-                if ($s->getId() == $series->getId())
-                    $is_following = true;
-            }
+        if ($user == null)
+            return $this->render('series/show.html.twig', ['serie' => $series, 'is_following' => false]);
 
-            if ($request->isMethod("post")) {
-                if ($is_following) {
+        $followed = $series->followedByUser($user);
+
+        if ($request->isMethod("post")) {
+            $episode = $request->get('episode');
+            if (isset($episode)) {
+                $episode = $entityManager
+                    ->getRepository(Episode::class)
+                    ->findOneBy(["id" => $episode]);
+                if ($episode->seenByUser($user))
+                    $user->removeEpisode($episode);
+                else
+                    $user->addEpisode($episode);
+            } else {
+                if ($followed)
                     $user->removeSeries($series);
-                } else {
+                else
                     $user->addSeries($series);
-                }
-                $entityManager->flush();
+                $followed = !$followed;
             }
+            $entityManager->flush();
         }
 
         return $this->render('series/show.html.twig', [
             'serie' => $series,
-            'is_following' => $is_following,
+            'is_following' => $followed,
         ]);
     }
 

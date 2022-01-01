@@ -33,8 +33,17 @@
 		<div id="loading">
 			<img src="{{ asset('imgs/logo.svg') }}"/>
 		</div>
+
 		{% block navbar %}{% endblock %}
-		<div id="app-container"> {% block app %}{% endblock %}
-			</div>
-		</body>
-	</html>
+
+		<div id="app-container"> 
+			{% block app %}{% endblock %}
+		</div>
+	</body>
+	<script>
+		// Evite de refaire une méthode post quand on refresh la page après un post
+		if (window.history.replaceState) {
+			window.history.replaceState(null, null, window.location.href);
+		}
+	</script>
+</html>

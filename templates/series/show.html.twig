@@ -81,77 +81,19 @@
 					<p>#{{ episode.getNumber() }}</p>
 					<h1>{{ episode.getTitle() }}</h1>
 				</div>
-				<form method="POST">
-					<input type="submit" value="+ Add to library" class="button" />
-				</form>
+				{% if app.user %}
+					<form id="ep{{ episode.id }}" method="POST" action="#ep{{ episode.id }}">
+						<input type="hidden" name="episode" value="{{ episode.id }}">
+						{% if episode.seenByUser(app.user) %}
+							<input type="hidden" name="toast" value="Episode marked as not watched">
+							<input type="submit" value="Remove from watched" style="color: rgba(255, 255, 255, 0.4)" class="button"/>
+						{% else %}
+							<input type="hidden" name="toast" value="Episode marked as watched">
+							<input type="submit" value="✓ Mark as watched" style="color: #ff9c38" class="button"/>
+						{% endif %}
+					</form>
+				{% endif %}
 			</div>
 		{% endfor %}
 	</div>
-
-	{# 
-							<table class="table">
-								<tbody>
-									<tr>
-										<th>Id</th>
-										<td>{{ serie.id }}</td>
-									</tr>
-									<tr>
-										<th>Title</th>
-										<td>{{ serie.title }}</td>
-									</tr>
-									<tr>
-										<th>Plot</th>
-										<td>{{ serie.plot }}</td>
-									</tr>
-									<tr>
-										<th>Season</th>
-										<td>
-											<ul>
-												{% for season in seasons %}
-													<li>
-														{{ season[0].number }}
-														({{ season[1] }}
-														épisodes)
-													</li>
-												{% endfor %}
-											</ul>
-										</td>
-									</tr>
-									<tr>
-										<th>Poster</th>
-										<td>
-											<img src="{{ path('series_poster', {'id': serie.id}) }}">
-										</td>
-									</tr>
-									<tr>
-										<th>Director</th>
-										<td>{{ serie.director }}</td>
-									</tr>
-									<tr>
-										<th>YoutubeTrailer</th>
-										<td>
-											<iframe width="420" height="300" src="{{ serie.getYoutubeEmbed() }}"></iframe>
-										</td>
-						
-									</tr>
-									<tr>
-										<th>Awards</th>
-										<td>{{ serie.awards }}</td>
-									</tr>
-									<tr>
-										<th>YearStart</th>
-										<td>{{ serie.yearStart }}</td>
-									</tr>
-									<tr>
-										<th>YearEnd</th>
-										<td>{{ serie.yearEnd }}</td>
-									</tr>
-								</tbody>
-							</table> #}
-
-{# <a href="{{ path('series_index') }}">back to list</a> #}
-
-	{# <a href="{{ path('series_edit', {'id': serie.id}) }}">edit</a> #}
-
-	{# {{ include('series/_delete_form.html.twig') }} #}
 {% endblock %}

@@ -371,6 +371,12 @@ class Series
         return $this;
     }
 
+    public function followedByUser(User $usr) {
+        $sort = new Criteria();
+        $sort->where(Criteria::expr()->eq('id', $usr->getId()));
+        return count($this->user->matching($sort));
+    }
+
     /**
      * @return Collection|Rating[]
      */
