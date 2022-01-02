@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * Rating
@@ -90,6 +92,15 @@ class Rating
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
+    }
+
+    public function getDateStr(): string
+    {   
+        $now = new DateTime('NOW');
+        $date_diff = $this->date->diff($now);
+        if ($date_diff->days < 1)
+            return "Today";
+        return $date_diff->days . " days ago";
     }
 
     public function setDate(\DateTimeInterface $date): self

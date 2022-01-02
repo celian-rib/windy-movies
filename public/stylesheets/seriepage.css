@@ -130,6 +130,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: 45px;
 }
 
 .episode-item >div {
@@ -205,4 +206,41 @@
 
 #trailer > div > p {
     background-color: transparent;
+}
+
+#reviews-list {
+    padding: 2em;
+    flex-direction: column;
+}
+
+.review-item {
+    width: 90%;
+    margin-top: 2em;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.review-item > .review-infos {
+    width: 20%;
+    max-width: 150px;
+}
+
+.review-item > .review-infos > h1 {
+    color: #ff9c38;
+}
+
+.review-item > .review-infos > p {
+    font-size: 0.7em;
+    opacity: 0.4;
+    margin-top: 0.6em;
+}
+
+.review-item > .review-infos > div {
+    display: flex;
+    margin-top: 0.2em;
+}
+.review-item > .review-infos > div > p {
+    font-size: 0.6em;
+    opacity: 0.8;
+    color: #ff9c38;
 }

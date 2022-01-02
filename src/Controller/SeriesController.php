@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Episode;
 use App\Entity\Genre;
+use App\Entity\Rating;
 use App\Entity\Season;
 use App\Entity\Series;
 use App\Entity\User;
 use App\Form\SeriesType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,6 +79,8 @@ class SeriesController extends AbstractController
 
         if ($request->isMethod("post")) {
             $episode = $request->get('episode');
+            $comment = $request->get('comment');
+            $rating = $request->get('rating');
             if (isset($episode)) {
                 $episode = $entityManager
                     ->getRepository(Episode::class)
@@ -85,6 +89,14 @@ class SeriesController extends AbstractController
                     $user->removeEpisode($episode);
                 else
                     $user->addEpisode($episode);
+            } else if (isset($comment) && isset($rating)) {
+                $new_rating = new Rating();
+                $new_rating->setComment($comment);
+                $new_rating->setValue($rating * 2);
+                $new_rating->setDate(new DateTime());
+                $new_rating->setSeries($series);
+                $new_rating->setUser($user);
+                $entityManager->persist($new_rating);
             } else {
                 if ($followed)
                     $user->removeSeries($series);
