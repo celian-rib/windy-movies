@@ -12,10 +12,10 @@ TODO (Non trié)
 - [x] Page info sur une séries (Saisons > épisodes)
 - [ ] Register (Avec captcha + vérifier champs)
 - [x] Login
-- [ ] Pouvoir noter une série
-- [ ] Pouvoir suivre une série
+- [x] Pouvoir noter une série
+- [x] Pouvoir suivre une série
 - [ ] Page séries suivis
-- [ ] Marquer un épisode comme vu
+- [x] Marquer un épisode comme vu
 - [ ] Pouvoir supprimer les commentaires en tant qu'admin
 - [ ] Mettre de nouvelles séries dans la base en tant qu'admin
 - [ ] Pouvoir générer des commentaires pour tester
@@ -50,3 +50,4 @@ https://gregwar.com/s3web/img/db.png
 
 http://www.omdbapi.com/?i=tt3896198&apikey=38a1fd74
 
+php bin/console app:create-user
