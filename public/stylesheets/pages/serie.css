@@ -118,7 +118,7 @@
 #episodes > div {
     flex-direction: column;
     width: 90%;
-    max-height: 600px;
+    max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
     justify-content: flex-start;

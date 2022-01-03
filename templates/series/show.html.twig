@@ -7,7 +7,7 @@
 {% block stylesheets %}
 	{{ parent() }}
 	<link href="{{ asset('stylesheets/content.css') }}" rel="stylesheet">
-	<link href="{{ asset('stylesheets/seriepage.css') }}" rel="stylesheet">
+	<link href="{{ asset('stylesheets/pages/serie.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% set curr_season = app.request.get('season') ?? 1 %}
