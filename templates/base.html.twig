@@ -24,9 +24,11 @@
 	</head>
 	<body>
 		{% set toast = app.request.get('toast') %}
-		{% if toast %}
-			<div class="toast">
-				<h1>{{ toast }}</h1>
+		{% set toasterr = app.request.get('toasterr') %}
+
+		{% if toast or toasterr %}
+			<div style="{{ toasterr ? "background-color: rgb(255, 158, 158)" }}" class="toast">
+				<h1>{{ toast ? toast : toasterr }}</h1>
 			</div>
 		{% endif %}
 

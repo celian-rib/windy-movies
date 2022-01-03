@@ -135,12 +135,16 @@
 		{% for review in serie.getRatings() %}
 			<div class="review-item">
 				<div class="review-infos">
+					<form method="POST" class="delete-review">
+						<input type="hidden" name="delete" value="{{ review.getId() }}"/>
+						<input type="submit" value="[delete]"/>
+					</form>
 					<h1>@{{ review.getUser().getName() }}</h1>
 					<p>{{ review.getDateStr() }}</p>
 					<div>
-					{% for i in range(1, 5) %}
-						<p>{{ i < review.getValue() / 2 ? "★" : "☆" }}</p>
-					{% endfor %}
+						{% for i in range(1, 5) %}
+							<p>{{ i < review.getValue() / 2 ? "★" : "☆" }}</p>
+						{% endfor %}
 					</div>
 				</div>
 				<p>{{ review.getComment() }}</p>

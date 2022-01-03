@@ -214,6 +214,7 @@
 }
 
 .review-item {
+    position: relative;
     width: 90%;
     margin-top: 2em;
     display: flex;
@@ -221,8 +222,11 @@
 }
 
 .review-item > .review-infos {
-    width: 20%;
-    max-width: 200px;
+    width: 200px;
+}
+
+.review-item >p {
+    max-width: 80%;
 }
 
 .review-item > .review-infos > h1 {
@@ -243,4 +247,11 @@
     font-size: 0.6em;
     opacity: 0.8;
     color: #ff9c38;
+}
+
+.delete-review {
+    margin-bottom: 0.2em;
+    background-color: transparent;
+    color: rgb(255, 158, 158);
+    font-size: 0.9em;
 }

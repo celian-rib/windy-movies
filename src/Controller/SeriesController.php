@@ -14,12 +14,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
+
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[Route('/series')]
+#[Route('/browse')]
 class SeriesController extends AbstractController
 {
     #[Route('/', name: 'series_index', methods: ['GET'])]
@@ -81,6 +83,7 @@ class SeriesController extends AbstractController
             $episode = $request->get('episode');
             $comment = $request->get('comment');
             $rating = $request->get('rating');
+            $delete = $request->get('delete');
             if (isset($episode)) {
                 $episode = $entityManager
                     ->getRepository(Episode::class)
@@ -97,6 +100,13 @@ class SeriesController extends AbstractController
                 $new_rating->setSeries($series);
                 $new_rating->setUser($user);
                 $entityManager->persist($new_rating);
+            } else if (isset($delete)) {
+                if(!$user->getAdmin())
+                    return $this->redirectToRoute('index', array('toasterr' => 'You are not admin'));
+                $rating = $entityManager
+                    ->getRepository(Rating::class)
+                    ->findOneBy(array('id' => $delete));
+                $entityManager->remove($rating);
             } else {
                 if ($followed)
                     $user->removeSeries($series);
