@@ -297,4 +297,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return ['ROLE_USER'];
     }
+
+    public function __toString()
+    {
+        return $this->getName() . " - " . $this->getEmail() . " - " . $this->getPassword() . " - " . $this->getCountry()->getName();
+    }
 }

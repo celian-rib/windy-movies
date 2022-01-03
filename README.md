@@ -18,7 +18,8 @@ TODO (Non trié)
 - [x] Marquer un épisode comme vu
 - [ ] Pouvoir supprimer les commentaires en tant qu'admin
 - [ ] Mettre de nouvelles séries dans la base en tant qu'admin
-- [ ] Pouvoir générer des commentaires pour tester
+- [x] Pouvoir générer des commentaires pour tester
+- [ ] 404
 - [ ] Redirect sur les routes ou on doit être login et que l'on est pas login
 
 

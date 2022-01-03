@@ -8,6 +8,8 @@
     overflow: hidden;
     transition: transform 0.5s;
     min-width: calc(100% / 6);
+    min-width: 200px;
+    min-height: 300px;
 }
 
 a.serie-item:hover {

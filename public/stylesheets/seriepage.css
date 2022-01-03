@@ -222,7 +222,7 @@
 
 .review-item > .review-infos {
     width: 20%;
-    max-width: 150px;
+    max-width: 200px;
 }
 
 .review-item > .review-infos > h1 {
@@ -232,7 +232,7 @@
 .review-item > .review-infos > p {
     font-size: 0.7em;
     opacity: 0.4;
-    margin-top: 0.6em;
+    margin-top: 0.8em;
 }
 
 .review-item > .review-infos > div {
