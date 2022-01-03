@@ -113,7 +113,7 @@
 				<textarea name="comment" type="text" placeholder="Your review..." required></textarea>
 				<div>
 					<select name="rating" required>
-						<option value="" disabled>Rating</option>
+						<option value="" selected disabled>Rating</option>
 						{% for i in range(1, 4) %}
 							<option value="{{ i }}">
 								{% for s in range(1, i) %}★
@@ -135,16 +135,18 @@
 		{% for review in serie.getRatings() %}
 			<div class="review-item">
 				<div class="review-infos">
-					<form method="POST" class="delete-review">
-						<input type="hidden" name="delete" value="{{ review.getId() }}"/>
-						<input type="submit" value="[delete]"/>
-					</form>
 					<h1>@{{ review.getUser().getName() }}</h1>
 					<p>{{ review.getDateStr() }}</p>
 					<div>
 						{% for i in range(1, 5) %}
 							<p>{{ i < review.getValue() / 2 ? "★" : "☆" }}</p>
 						{% endfor %}
+						{% if app.user and ( app.user.admin or review.user.id == app.user.id) %}
+							<form method="POST" class="delete-review">
+								<input type="hidden" name="delete" value="{{ review.getId() }}"/>
+								<input type="submit" value="[delete]"/>
+							</form>
+						{% endif %}
 					</div>
 				</div>
 				<p>{{ review.getComment() }}</p>

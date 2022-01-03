@@ -83,7 +83,7 @@ class SeriesController extends AbstractController
             $episode = $request->get('episode');
             $comment = $request->get('comment');
             $rating = $request->get('rating');
-            $delete = $request->get('delete');
+            $delete_review = $request->get('delete');
             if (isset($episode)) {
                 $episode = $entityManager
                     ->getRepository(Episode::class)
@@ -100,12 +100,12 @@ class SeriesController extends AbstractController
                 $new_rating->setSeries($series);
                 $new_rating->setUser($user);
                 $entityManager->persist($new_rating);
-            } else if (isset($delete)) {
-                if(!$user->getAdmin())
-                    return $this->redirectToRoute('index', array('toasterr' => 'You are not admin'));
+            } else if (isset($delete_review)) {
                 $rating = $entityManager
                     ->getRepository(Rating::class)
-                    ->findOneBy(array('id' => $delete));
+                    ->findOneBy(array('id' => $delete_review));
+                if(!$user->getAdmin() && !($rating->getUser()->getId() == $user->getId()))
+                    return $this->redirectToRoute('index', array('toasterr' => 'You are not admin'));
                 $entityManager->remove($rating);
             } else {
                 if ($followed)

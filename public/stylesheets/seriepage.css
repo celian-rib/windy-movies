@@ -249,9 +249,8 @@
     color: #ff9c38;
 }
 
-.delete-review {
-    margin-bottom: 0.2em;
-    background-color: transparent;
+.delete-review > input {
+    margin-left: 1em;
     color: rgb(255, 158, 158);
     font-size: 0.9em;
 }
