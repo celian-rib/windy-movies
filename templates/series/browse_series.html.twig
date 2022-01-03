@@ -63,8 +63,7 @@
 		</div>
 	</div>
 
-
-	<div style="{{ series|length == 0 ? "flex-direction: column; min-height: 200px" }}" class="influx-container shadow slot-background">
+	<div style="justify-content: space-between; {{ series|length == 0 ? "flex-direction: column; min-height: 200px" }}" class="influx-container shadow slot-background">
 		{% if series|length == 0 %}
 			<h1>Oops... No result found</h1>
 			<a href="{{ path('series_index') }}" class="button orange-highlight">See all series</a>

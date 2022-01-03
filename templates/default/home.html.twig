@@ -6,6 +6,7 @@
 {% block stylesheets %}
 	{{ parent() }}
 	<link href="{{ asset('stylesheets/content.css') }}" rel="stylesheet">
+	<link href="{{ asset('stylesheets/home.css') }}" rel="stylesheet">
 	<link href="{{ asset('stylesheets/serie-item.css') }}" rel="stylesheet">
 {% endblock %}
 
@@ -28,14 +29,14 @@
 	</div>
 
 	<h1 class="separator">Recommended</h1>
-	<div class="influx-container shadow slot-background">
+	<div style="justify-content: space-between;" id="top-5" class="influx-container shadow slot-background">
 		{% for s in top_5 %}
 			{% include 'series/serie_item.html.twig' with {'serie': s} %}
 		{% endfor %}
 	</div>
 
 	<h1 class="separator">Trending</h1>
-	<div class="influx-container slot-background">
+	<div style="justify-content: space-between;" class="influx-container slot-background">
 		{% for s in trending %}
 			{% include 'series/serie_item.html.twig' with {'serie': s} %}
 		{% endfor %}
