@@ -14,7 +14,7 @@
 			<a id="{{ route == "series_index" ? "nav-selected" }}" href="{{ path('series_index') }}">Browse</a>
 			{% if app.user %}
 				<a id="{{ route == "library" ? "nav-selected" }}" href="{{ path('library') }}">Library</a>
-				<a id="{{ route == "account" ? "nav-selected" }}" href="{{ path('index') }}">Account</a>
+				<a id="{{ route == "account" ? "nav-selected" }}" href="{{ path('account') }}">Account</a>
 			{% endif %}
 			<a id="{{ route == "about" ? "nav-selected" }}" href="{{ path('about') }}">About</a>
 		</div>
@@ -26,11 +26,11 @@
 				</div>
 				<a href="{{ path('app_logout') }}">Logout</a>
 			{% else %}
-				<a style="color: #ff9c38" href="{{ path('app_login') }}">Login</a>
+				<a style="color: #ff9c38; opacity: 1;" href="{{ path('app_login') }}">Login</a>
 				<a href="{{ path('app_register') }}">Register</a>
 			{% endif %}
 			{% if app.user and app.user.admin %}
-				<a id="{{ route == "admin" ? "nav-selected" }}" href="{{ path('index') }}">Admin Panel</a>
+				<a id="{{ route == "admin" ? "nav-selected" }}" href="{{ path('admin') }}">Admin Panel</a>
 			{% endif %}
 		</div>
 	</nav>

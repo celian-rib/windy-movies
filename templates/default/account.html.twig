@@ -1,0 +1,18 @@
+{% extends 'nav.html.twig' %}
+
+{% block title %}Home
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+{% block app %}
+	<h1>Hello {{ app.user.name }}</h1>
+    <p>Your email is: {{ app.user.email }}</p>
+
+    <form method="post">
+        <input type="hidden" name="toast" value="Account deleted">
+        <input type="submit" value="Delete your account">
+    </form>
+{% endblock %}

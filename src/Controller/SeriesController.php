@@ -21,7 +21,7 @@ use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[Route('/browse')]
+#[Route('/series')]
 class SeriesController extends AbstractController
 {
     #[Route('/', name: 'series_index', methods: ['GET'])]
@@ -30,7 +30,6 @@ class SeriesController extends AbstractController
         $MAX_PER_PAGE = 20;
         $search_filter = $request->query->get('search');
         $genre_filter = $request->query->get('genre');
-        // $rating_filter = $request->query->get('rating');
 
         $offset = $request->query->get('offset') ?? 0;
         if ($offset < 0)
@@ -51,7 +50,7 @@ class SeriesController extends AbstractController
                 ->join('s.genre', 'g')
                 ->andWhere('g.id = :genre')
                 ->setParameter('genre', $genre_filter);
-
+        
         $result_counts = count($query->getQuery()->getResult());
         $query->setFirstResult($offset * $MAX_PER_PAGE)->setMaxResults($MAX_PER_PAGE);
 
@@ -64,9 +63,18 @@ class SeriesController extends AbstractController
     }
 
     #[Route('/library', name: 'library', methods: ['GET'])]
-    public function library(): Response
+    public function library(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('series/library.html.twig');
+        /** @var User $user */
+        $user = $this->getUser();
+        if ($user == null)
+            return $this->redirectToRoute('index');
+
+        $series = $user->getSeries();
+
+        return $this->render('series/library.html.twig', [
+            'series' => $series
+        ]);
     }
 
     #[Route('/{id}', name: 'series_show', methods: ['GET', 'POST'])]

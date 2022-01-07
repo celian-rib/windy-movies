@@ -1,0 +1,21 @@
+{% extends 'nav.html.twig' %}
+
+{% block title %}Home
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+    <link href="{{ asset('stylesheets/content.css') }}" rel="stylesheet">
+	<link href="{{ asset('stylesheets/serie-item.css') }}" rel="stylesheet">
+	<link href="{{ asset('stylesheets/pages/serie.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block app %}
+	<h1 class="separator">Admin panel</h1>
+	<div id="reviews-list" class="influx-container shadow slot-background">
+		<h1>Latest reviews</h1>
+		{% for r in reviews %}
+			{% include 'default/review_item.html.twig' with {'review': r} %}
+		{% endfor %}
+	</div>
+{% endblock %}
