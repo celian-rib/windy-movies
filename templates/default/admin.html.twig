@@ -12,6 +12,14 @@
 
 {% block app %}
 	<h1 class="separator">Admin panel</h1>
+	<div style="flex-direction: column;" class="influx-container shadow slot-background">
+		<h1>Add a serie</h1>
+		<form style="display: flex; flex-direction: column;" method="post">
+			<input type="text" name="imdb_id" placeholder="Imdb identifier">
+			<input type="text" name="ytb_trailer" placeholder="Youtube trailer">
+			<input type="submit">
+		</form>
+	</div>
 	<div id="reviews-list" class="influx-container shadow slot-background">
 		<h1>Latest reviews</h1>
 		{% for r in reviews %}

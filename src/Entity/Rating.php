@@ -45,20 +45,16 @@ class Rating
     private $date;
 
     /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
-     */
-    private $user;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Series::class, inversedBy="ratings")
      * @ORM\JoinColumn(nullable=false)
      */
     private $series;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ratings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -110,18 +106,6 @@ class Rating
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function getSeries(): ?Series
     {
         return $this->series;
@@ -130,6 +114,18 @@ class Rating
     public function setSeries(?Series $series): self
     {
         $this->series = $series;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
