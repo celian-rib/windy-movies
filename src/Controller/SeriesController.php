@@ -38,6 +38,7 @@ class SeriesController extends AbstractController
         $query = $entityManager
             ->createQueryBuilder()
             ->select('s')
+            ->orderBy('s.id', 'DESC')
             ->from(Series::class, 's');
 
         if (isset($search_filter))
@@ -100,7 +101,7 @@ class SeriesController extends AbstractController
                     $user->removeEpisode($episode);
                 else
                     $user->addEpisode($episode);
-            } else if (isset($comment) && isset($rating)) {
+            } else if (isset($rating)) {
                 $new_rating = new Rating();
                 $new_rating->setComment($comment);
                 $new_rating->setValue($rating * 2);

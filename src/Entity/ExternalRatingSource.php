@@ -45,5 +45,9 @@ class ExternalRatingSource
         return $this;
     }
 
+    public function __construct($name)
+    {
+        $this->setName($name);
+    }
 
 }

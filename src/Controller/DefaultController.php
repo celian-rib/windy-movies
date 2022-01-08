@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Actor;
+use App\Entity\Country;
 use App\Entity\ExternalRating;
+use App\Entity\ExternalRatingSource;
+use App\Entity\Genre;
 use App\Entity\Rating;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,75 +68,22 @@ class DefaultController extends AbstractController
         return $this->render('default/about.html.twig');
     }
 
-    #[Route('/admin', name: 'admin')]
-    public function admin(Request $request, EntityManagerInterface $entityManager): Response
+    function getImdbAPI($imdb_id, $season_id = null, $episode_id = null)
     {
-        /** @var User $user */
-        $user = $this->getUser();
-        if ($user == null)
-            return $this->redirectToRoute('index');
-        if ($user->getAdmin() == false)
-            return $this->redirectToRoute('index', array('toasterr' => 'You are not admin'));
+        $API_KEY = "38a1fd74";
+        $BASE_URL = "http://www.omdbapi.com/?i=" . $imdb_id . "&apikey=" . $API_KEY;
 
-        if ($request->isMethod("post")) {
-            $imdb_id = $request->get('imdb_id');
-            $ytb_trailer = $request->get('ytb_trailer');
-            if (isset($imdb_id)) {
-                $url = "http://www.omdbapi.com/?i=". $imdb_id ."&apikey=38a1fd74";
+        if ($season_id != null)
+            $BASE_URL = $BASE_URL . "&season=" . $season_id;
+        if ($episode_id != null)
+            $BASE_URL = $BASE_URL . "&episode=" . $episode_id;
 
-                // Fait la requete
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                $out = curl_exec($ch);
-                curl_close($ch);
-                $data = json_decode($out, false);
-
-                //2019-
-                //2019-2020
-
-                $new_serie = new Series();
-                $years = explode('-', $data->Year);
-                $new_serie
-                    ->setYearStart((int) $years[0])
-                    ->setYearEnd((int) count($years) > 1 ? $years[1] : null)
-                    ->setPlot($data->Plot)
-                    ->setPoster(file_get_contents($data->Poster))
-                    ->setImdb($imdb_id)
-                    ->setDirector($data->Director)
-                    ->setAwards($data->Awards)
-                    ->setTitle($data->Title);
-
-                foreach($data->Ratings as $er) {
-                    $new_er = new ExternalRating();
-                    $new_er->setSource($er->Source);
-                    $new_er->setValue($er->Value);
-                    $new_er->setSeries($new_serie);
-                    $entityManager->persist($new_er);
-                }
-                    //mtn manque plus que les saisons
-                
-                
-                if(isset($ytb_trailer)){
-                    $new_serie->setYoutubeTrailer($ytb_trailer);
-                }
-                $entityManager->persist($new_serie);
-                $entityManager->flush();
-            }
-        }
-
-        $reviews = $entityManager
-            ->createQueryBuilder()
-            ->select('r')
-            ->from(Rating::class, 'r')
-            ->orderBy('r.date', 'DESC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult();
-
-        return $this->render('default/admin.html.twig', [
-            'reviews' => $reviews
-        ]);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $BASE_URL);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $out = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($out, false);
     }
 
     #[Route('/account', name: 'account')]

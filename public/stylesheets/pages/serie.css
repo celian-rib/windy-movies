@@ -84,7 +84,7 @@
     align-items: center;
     justify-content: space-evenly;
 }
-#trailer-poster > div > p {
+#trailer-poster > div > p, #trailer-poster > div > a {
     width: 60px;
     background-color: rgba(255, 255, 255, 0.062);
     justify-content: center;
@@ -117,7 +117,7 @@
 
 #episodes > div {
     flex-direction: column;
-    width: 90%;
+    width: 95%;
     max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -125,12 +125,18 @@
 }
 
 .episode-item {
-    width: 100%;
-    padding-top: 0.4em;
+    padding: 0.5em 1em 0.5em 1em;
+    margin-top: 0.4em;
     display: flex;
     align-items: center;
     justify-content: space-between;
     min-height: 45px;
+    border-radius: 20px;
+}
+
+.episode-item:hover {
+    transform: scale(1) !important;
+    background-color: #9292922c;
 }
 
 .episode-item >div {
@@ -144,6 +150,7 @@
 
 .episode-item input {
     cursor: pointer;
+    background: transparent !important;
 }
 
 #review {

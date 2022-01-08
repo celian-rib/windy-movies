@@ -112,6 +112,11 @@ class Episode
     {
         return $this->imdb;
     }
+  
+    public function getImdbLink(): ?string
+    {
+        return "https://www.imdb.com/title/" . $this->imdb;
+    }
 
     public function setImdb(string $imdb): self
     {

@@ -64,6 +64,7 @@
 			<div>
 				<p id="open-trailer" class="button">Trailer</p>
 				<p id="goto-ratings" class="button">Reviews</p>
+				<a class="button" target="_blank" href="{{ serie.getImdbLink() }}">IMDB</a>
 			</div>
 			<img src="{{ path('series_poster', {'id': serie.id}) }}"/>
 		</div>
@@ -81,9 +82,9 @@
 	</form>
 
 	<div id="episodes" class="influx-container slot-background shadow">
-		<div class="influx-container">
+		<div>
 			{% for episode in serie.getSeason(curr_season).getEpisodes() %}
-				<div class="episode-item">
+				<a target="_blank" href="{{ episode.getImdbLink() }}" class="episode-item">
 					<div>
 						<p>#{{ episode.getNumber() }}</p>
 						<h1>{{ episode.getTitle() }}</h1>
@@ -100,7 +101,7 @@
 							{% endif %}
 						</form>
 					{% endif %}
-				</div>
+				</a>
 			{% endfor %}
 		</div>
 	</div>
@@ -110,7 +111,7 @@
 			<h1>Add a review</h1>
 			<form method="POST" action="#review">
 				<input type="hidden" name="toast" value="Your review as been submited">
-				<textarea name="comment" type="text" placeholder="Your review..." required></textarea>
+				<textarea name="comment" type="text" placeholder="Your review..."></textarea>
 				<div>
 					<select name="rating" required>
 						<option value="" selected disabled>Rating</option>

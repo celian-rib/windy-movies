@@ -48,8 +48,9 @@ class Actor
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($name)
     {
+        $this->name = $name;
         $this->series = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

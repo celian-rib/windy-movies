@@ -217,7 +217,13 @@ class Series
 
     public function getYoutubeEmbed(): ?string
     {
+        if($this->youtubeTrailer == null)
+            return null;
         return "https://www.youtube.com/embed/" . explode('=', $this->youtubeTrailer)[1];
+    }
+
+    public function getImdbLink() {
+        return "https://www.imdb.com/title/" . $this->imdb;
     }
 
     public function setYoutubeTrailer(?string $youtubeTrailer): self
