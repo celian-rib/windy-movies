@@ -1,4 +1,4 @@
-{% extends 'nav.html.twig' %}
+{% extends 'components/navbar.html.twig' %}
 
 {% block title %}Home
 {% endblock %}
@@ -13,7 +13,7 @@
 	<h1 class="separator">Your library</h1>
 	<div style="justify-content: space-between;" class="influx-container shadow slot-background">
 		{% for s in series %}
-			{% include 'series/serie_item.html.twig' with {'serie': s} %}
+			{% include 'components/serie_item.html.twig' with {'serie': s} %}
 		{% endfor %}
 	</div>
 {% endblock %}

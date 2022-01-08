@@ -1,4 +1,4 @@
-{% extends 'nav.html.twig' %}
+{% extends 'components/navbar.html.twig' %}
 
 {% block title %}Home
 {% endblock %}
@@ -31,14 +31,14 @@
 	<h1 class="separator">Recommended</h1>
 	<div style="justify-content: space-between;" id="top-5" class="influx-container shadow slot-background">
 		{% for s in top_5 %}
-			{% include 'series/serie_item.html.twig' with {'serie': s} %}
+			{% include 'components/serie_item.html.twig' with {'serie': s} %}
 		{% endfor %}
 	</div>
 
 	<h1 class="separator">Trending</h1>
 	<div style="justify-content: space-between;" class="influx-container slot-background">
 		{% for s in trending %}
-			{% include 'series/serie_item.html.twig' with {'serie': s} %}
+			{% include 'components/serie_item.html.twig' with {'serie': s} %}
 		{% endfor %}
 	</div>
 

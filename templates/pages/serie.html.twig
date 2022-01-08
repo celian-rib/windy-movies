@@ -1,4 +1,4 @@
-{% extends 'nav.html.twig' %}
+{% extends 'components/navbar.html.twig' %}
 
 {% block title %}
 	{{ serie.title }}
@@ -136,7 +136,7 @@
 	<div id="reviews-list" class="influx-container slot-background shadow">
 		<h1>Reviews</h1>
 		{% for r in serie.getRatings() %}
-			{% include 'default/review_item.html.twig' with {'review': r} %}
+			{% include 'components/review_item.html.twig' with {'review': r} %}
 		{% endfor %}
 	</div>
 

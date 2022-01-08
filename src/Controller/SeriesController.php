@@ -5,21 +5,15 @@ namespace App\Controller;
 use App\Entity\Episode;
 use App\Entity\Genre;
 use App\Entity\Rating;
-use App\Entity\Season;
 use App\Entity\Series;
 use App\Entity\User;
-use App\Form\SeriesType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-use Doctrine\ORM\Query\ResultSetMapping;
-use Doctrine\ORM\Tools\Pagination\Paginator;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/series')]
 class SeriesController extends AbstractController
@@ -55,7 +49,7 @@ class SeriesController extends AbstractController
         $result_counts = count($query->getQuery()->getResult());
         $query->setFirstResult($offset * $MAX_PER_PAGE)->setMaxResults($MAX_PER_PAGE);
 
-        return $this->render('series/browse_series.html.twig', [
+        return $this->render('pages/browse.html.twig', [
             'series' => $query->getQuery()->getResult(),
             'genres' => $entityManager->getRepository(Genre::class)->findAll(),
             'page_count' => ceil($result_counts / $MAX_PER_PAGE),
@@ -73,7 +67,7 @@ class SeriesController extends AbstractController
 
         $series = $user->getSeries();
 
-        return $this->render('series/library.html.twig', [
+        return $this->render('pages/users/library.html.twig', [
             'series' => $series
         ]);
     }
@@ -84,7 +78,7 @@ class SeriesController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         if ($user == null)
-            return $this->render('series/show.html.twig', ['serie' => $series, 'is_following' => false]);
+            return $this->render('pages/serie.html.twig', ['serie' => $series, 'is_following' => false]);
 
         $followed = $series->followedByUser($user);
 
@@ -126,7 +120,7 @@ class SeriesController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->render('series/show.html.twig', [
+        return $this->render('pages/serie.html.twig', [
             'serie' => $series,
             'is_following' => $followed,
         ]);

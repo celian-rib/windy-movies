@@ -51,4 +51,10 @@ https://gregwar.com/s3web/img/db.png
 
 http://www.omdbapi.com/?i=tt3896198&apikey=38a1fd74
 
-php bin/console app:create-user
+```
+php bin/console app:create-user <count>
+```
+
+```
+symfony console app:generate-rating <count>
+```

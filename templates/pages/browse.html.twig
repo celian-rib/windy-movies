@@ -1,4 +1,4 @@
-{% extends 'nav.html.twig' %}
+{% extends 'components/navbar.html.twig' %}
 
 {% block stylesheets %}
 	{{ parent() }}
@@ -55,7 +55,7 @@
 			<a href="{{ path('series_index') }}" class="button orange-highlight">See all series</a>
 		{% endif %}
 		{% for s in series %}
-			{% include 'series/serie_item.html.twig' with {'serie': s} %}
+			{% include 'components/serie_item.html.twig' with {'serie': s} %}
 		{% endfor %}
 	</div>
 {% endblock %}

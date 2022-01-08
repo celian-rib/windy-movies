@@ -171,7 +171,7 @@ class AdminController extends AbstractController
             ->getQuery()
             ->getResult();
 
-        return $this->render('default/admin.html.twig', [
+        return $this->render('pages/users/admin.html.twig', [
             'reviews' => $reviews
         ]);
     }

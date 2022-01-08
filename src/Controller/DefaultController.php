@@ -2,12 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Actor;
-use App\Entity\Country;
-use App\Entity\ExternalRating;
-use App\Entity\ExternalRatingSource;
-use App\Entity\Genre;
-use App\Entity\Rating;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,9 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Series;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class DefaultController extends AbstractController
 {
@@ -55,7 +47,7 @@ class DefaultController extends AbstractController
 
         // $best = $top_series[0];
         // array_shift($top_series);
-        return $this->render('default/home.html.twig', [
+        return $this->render('pages/home.html.twig', [
             'best' => $best,
             'top_5' => $top_5,
             'trending' => $trending,
@@ -65,7 +57,7 @@ class DefaultController extends AbstractController
     #[Route('/about', name: 'about')]
     public function about(): Response
     {
-        return $this->render('default/about.html.twig');
+        return $this->render('pages/about.html.twig');
     }
 
     function getImdbAPI($imdb_id, $season_id = null, $episode_id = null)
@@ -103,6 +95,6 @@ class DefaultController extends AbstractController
             return $this->redirectToRoute('index');
         }
 
-        return $this->render('default/account.html.twig');
+        return $this->render('pages/users/account.html.twig');
     }
 }
