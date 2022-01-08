@@ -1,19 +1,53 @@
 {% extends 'components/navbar.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}
+	Register
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('stylesheets/content.css') }}" rel="stylesheet">
+{% endblock %}
 
 {% block app %}
-    <h1>Register</h1>
+	<h1>Register</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.name) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.country) }}
-        {{ form_row(registrationForm.plainPassword, {
+	<div id="container" class="influx-container">
+		{{ form_start(registrationForm) }}
+		<div class="influx-container shadow slot-background">
+			{{ form_widget(registrationForm.name) }}
+		</div>
+		<div class="influx-container shadow slot-background">
+			{{ form_widget(registrationForm.email) }}
+		</div>
+		<div class="influx-container shadow slot-background">
+			{{ form_widget(registrationForm.country) }}
+		</div>
+		<div class="influx-container shadow slot-background">
+			{{ form_widget(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+		</div>
+		<div class="influx-container shadow slot-background">
+			{{ form_row(registrationForm.agreeTerms) }}
+		</div>
+		<div class="influx-container shadow slot-background">
+			{{ form_widget(registrationForm.captcha) }}
+		</div>
+		<input class="button orange-highlight" type="submit"/>
+		{{ form_end(registrationForm) }}
+	</div>
+	<style>
+		#container form {
+			align-items: center;
+			width: 100%;
+		}
+		#container form > .influx-container {
+			justify-content: flex-start;
+			padding: 1em 2em;
+		}
+		#container form > input[type=submit] {
+			margin: auto;
+		}
+	</style>
 {% endblock %}

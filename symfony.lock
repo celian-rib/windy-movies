@@ -88,6 +88,12 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "gregwar/captcha": {
+        "version": "v1.1.9"
+    },
+    "gregwar/captcha-bundle": {
+        "version": "v2.1.7"
+    },
     "laminas/laminas-code": {
         "version": "4.5.0"
     },

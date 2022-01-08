@@ -11,15 +11,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('email')
-            ->add('country')
+            ->add('name', null, [
+                'attr' => ['placeholder' => 'Your name']
+            ])
+            ->add('email', null, [
+                'attr' => ['placeholder' => 'Your email']
+            ])
+            ->add('country', null, [
+                'attr' => ['placeholder' => 'Select your country'],
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -28,11 +35,14 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('captcha', CaptchaType::class, [
+                'attr' => ['placeholder' => 'rewrite symbol']
+            ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => ['autocomplete' => 'new-password', 'placeholder' => 'password'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
