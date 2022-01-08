@@ -213,9 +213,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Episode[]
-     */
     public function getEpisode(): Collection
     {
         return $this->episode;

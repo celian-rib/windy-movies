@@ -88,3 +88,15 @@ div > a.serie-item:nth-child(n+6) {
     font-size: 0.8em;
     color: #ff9c38;
 }
+
+.watch-percent {
+    position: absolute;
+    z-index: 20;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    background-color: #3bbcf0b2;
+}

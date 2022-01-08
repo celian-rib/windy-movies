@@ -12,8 +12,12 @@
 {% block app %}
 	<h1 class="separator">Your library</h1>
 	<div style="justify-content: space-between;" class="influx-container shadow slot-background">
+		{% if series|length == 0 %}
+			<h1>Oops... Your library is empty</h1>
+			<a href="{{ path('series_index') }}" class="button orange-highlight">See all series</a>
+		{% endif %}
 		{% for s in series %}
-			{% include 'components/serie_item.html.twig' with {'serie': s} %}
+			{% include 'components/serie_item.html.twig' with {'serie': s, 'watched': true} %}
 		{% endfor %}
 	</div>
 {% endblock %}

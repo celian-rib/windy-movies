@@ -217,12 +217,13 @@ class Series
 
     public function getYoutubeEmbed(): ?string
     {
-        if($this->youtubeTrailer == null)
+        if ($this->youtubeTrailer == null)
             return null;
         return "https://www.youtube.com/embed/" . explode('=', $this->youtubeTrailer)[1];
     }
 
-    public function getImdbLink() {
+    public function getImdbLink()
+    {
         return "https://www.imdb.com/title/" . $this->imdb;
     }
 
@@ -377,7 +378,8 @@ class Series
         return $this;
     }
 
-    public function followedByUser(User $usr) {
+    public function followedByUser(User $usr)
+    {
         $sort = new Criteria();
         $sort->where(Criteria::expr()->eq('id', $usr->getId()));
         return count($this->user->matching($sort));
@@ -502,5 +504,29 @@ class Series
         }
 
         return $this;
+    }
+
+    public function getPercentWatched(User $user)
+    {
+        // $seen = 0;
+        // $total = 0;
+        // foreach ($this->getSeasons() as $season) {
+        //     $sort = new Criteria();
+        //     $sort->where(Criteria::expr()->eq('season', $this->getSeason($season->getNumber())));
+        //     $episode_seen = $user->getEpisodesOfSeason($season);
+        //     $total += count($this->getSeason($season->getNumber())->getEpisodes());
+        //     $seen += count($episode_seen);
+        // }
+
+        $seen = 0;
+        $total = 0;
+        foreach($this->getSeasons() as $season) {
+            foreach($season->getEpisodes() as $ep) {
+                if($ep->seenByUser($user))
+                    $seen++;
+                $total++;
+            }
+        }
+        return round(100 * $seen / $total);
     }
 }

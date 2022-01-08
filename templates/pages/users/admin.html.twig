@@ -5,7 +5,7 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-    <link href="{{ asset('stylesheets/content.css') }}" rel="stylesheet">
+	<link href="{{ asset('stylesheets/content.css') }}" rel="stylesheet">
 	<link href="{{ asset('stylesheets/serie-item.css') }}" rel="stylesheet">
 	<link href="{{ asset('stylesheets/pages/serie.css') }}" rel="stylesheet">
 {% endblock %}
@@ -14,10 +14,16 @@
 	<h1 class="separator">Admin panel</h1>
 	<div style="flex-direction: column;" class="influx-container shadow slot-background">
 		<h1>Add a serie</h1>
-		<form action="{{ path('admin') }}" style="display: flex; flex-direction: column;" method="post">
-			<input type="text" name="imdb_id" placeholder="Imdb identifier" required>
-			<input type="text" name="ytb_trailer" placeholder="Youtube trailer">
-			<input type="submit">
+		<form action="{{ path('admin') }}" style="display: flex; flex-direction: column; width: 100%;" method="post">
+			<div class="influx-container">
+				<input style="width: 100%; background-color: rgba(0,0,0,0.1);" type="text" name="imdb_id" placeholder="Imdb identifier" required>
+			</div>
+			<div class="influx-container">
+				<input style="width: 100%; background-color: rgba(0,0,0,0.1);" type="text" name="ytb_trailer" placeholder="Youtube trailer (not required)">
+			</div>
+			<div class="influx-container">
+				<input class="button orange-highlight" type="submit">
+			</div>
 		</form>
 	</div>
 	<div id="reviews-list" class="influx-container shadow slot-background">
