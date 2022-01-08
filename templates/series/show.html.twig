@@ -62,7 +62,9 @@
 		</div>
 		<div id="trailer-poster">
 			<div>
-				<p id="open-trailer" class="button">Trailer</p>
+				{% if serie.getYoutubeTrailer() %}
+					<p id="open-trailer" class="button">Trailer</p>
+				{% endif %}
 				<p id="goto-ratings" class="button">Reviews</p>
 				<a class="button" target="_blank" href="{{ serie.getImdbLink() }}">IMDB</a>
 			</div>
@@ -151,8 +153,8 @@ const toggle = () => {
 showTrailer = ! showTrailer;
 trailer.style.display = showTrailer ? "flex" : "none";
 }
-document.getElementById("open-trailer").addEventListener("click", toggle);
-document.getElementById("close-trailer").addEventListener("click", toggle);
+document.getElementById("open-trailer")?.addEventListener("click", toggle);
+document.getElementById("close-trailer")?.addEventListener("click", toggle);
 toggle();
 document.getElementById("goto-ratings").addEventListener("click", () => {
 document.getElementById("reviews-list").scrollIntoView({behavior: 'smooth'});
