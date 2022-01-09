@@ -506,27 +506,4 @@ class Series
         return $this;
     }
 
-    public function getPercentWatched(User $user)
-    {
-        // $seen = 0;
-        // $total = 0;
-        // foreach ($this->getSeasons() as $season) {
-        //     $sort = new Criteria();
-        //     $sort->where(Criteria::expr()->eq('season', $this->getSeason($season->getNumber())));
-        //     $episode_seen = $user->getEpisodesOfSeason($season);
-        //     $total += count($this->getSeason($season->getNumber())->getEpisodes());
-        //     $seen += count($episode_seen);
-        // }
-
-        $seen = 0;
-        $total = 0;
-        foreach($this->getSeasons() as $season) {
-            foreach($season->getEpisodes() as $ep) {
-                if($ep->seenByUser($user))
-                    $seen++;
-                $total++;
-            }
-        }
-        return round(100 * $seen / $total);
-    }
 }

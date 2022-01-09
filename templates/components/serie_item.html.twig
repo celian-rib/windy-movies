@@ -12,12 +12,9 @@
 			{% endfor %}
 		</div>
 	{% endif %}
-	{% if watched ?? false %}
-		{% set watch_p = serie.getPercentWatched(app.user) %}
-		{% if watch_p > 0 %}
-			<p class="watch-percent">{{ watch_p }}% watched</p>	
-		{% else %}
-			<p class="watch-percent">Not watched</p>	
-		{% endif %}
+	{% if watched ?? 0 > 0 %}
+		<p class="watch-percent">{{ watched }}% watched</p>	
+	{% else %}
+		<p class="watch-percent">Not watched</p>	
 	{% endif %}
 </a>

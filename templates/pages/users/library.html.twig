@@ -18,7 +18,7 @@
 			<a href="{{ path('series_index') }}" class="button orange-highlight">See all series</a>
 		{% endif %}
 		{% for s in series %}
-			{% include 'components/serie_item.html.twig' with {'serie': s, 'watched': true} %}
+			{% include 'components/serie_item.html.twig' with {'serie': s, 'watched': percents_watched[s.id] ?? 0} %}
 		{% endfor %}
 	</div>
 {% endblock %}

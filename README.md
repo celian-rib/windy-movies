@@ -20,7 +20,7 @@ TODO (Non trié)
 - [ ] Mettre de nouvelles séries dans la base en tant qu'admin
 - [x] Pouvoir générer des commentaires pour tester
 - [ ] 404
-- [ ] Redirect sur les routes ou on doit être login et que l'on est pas login
+- [x] Redirect sur les routes ou on doit être login et que l'on est pas login
 
 
 ***
