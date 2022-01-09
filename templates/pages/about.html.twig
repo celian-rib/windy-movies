@@ -1,6 +1,7 @@
 {% extends 'components/navbar.html.twig' %}
 
-{% block title %}Home
+{% block title %}
+	About
 {% endblock %}
 
 {% block stylesheets %}
@@ -8,5 +9,189 @@
 {% endblock %}
 
 {% block app %}
-	<h1>This i an about page</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border-spacing:0px;
+            border-collapse: collapse;
+        }
+        td, th {
+            border-bottom:1px solid #aaa;
+            padding:5px;
+        }
+        table tr:nth-child(odd) {
+            background-color: rgba(100,100,100,0.3);
+        }
+        thead th {
+			padding: 1em;
+            background-color:#333;
+            color:white;
+            font-size:80%;
+        }
+        th {
+            font-weight:normal;
+            text-align:left;
+        }
+        tbody td {
+            text-align:center;
+            font-size:24px;
+            text-shadow:1px 1px 1px  black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Groupe : S3B</h1>
+    <h2>JOSSO Victor - RIBOULET Célian</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th width="500px">Fonctionnalité</td>
+                <th>Pas&nbsp;abordée</td>
+                <th>Pas&nbsp;terminée</td>
+                <th>Fonctionnelle</td>
+                <th>Commentaire (éventuel)</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Une page d'accueil présentant le site</th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Un menu facilitant la navigation dans le site</th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Une page "à propos", décrivant le travail réalisé et précisant
+                    la liste des auteurs du site (le binôme), et éventuellement les
+                    difficultés rencontrées (ainsi que ce tableau)</th>
+                <td></td>
+                <td></td>
+                <td>X</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Une page présentant l'ensemble des séries de la base de
+                    données, l'affichage doit être paginé et il doit être possible de
+                    rechercher des séries</th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>La possibilité de naviguer dans les saisons d'une série, puis dans les épisodes</th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Chaque fois que c'est pertinent on affichera le poster de la série</th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Chaque fois que c'est pertinent on affichera le trailer <em>YouTube</em></th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <th>Le poster est affichable via un bouton (Bouton visible uniquement si la trailer est disponible pour la série en question)</th>
+            </tr>
+            <tr>
+                <th>Chaque fois que c'est pertinent on affichera un lien vers la fiche <em>IMDB</em> de la série ou de l'épisode
+                </th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>La possibilité pour un utilisateur de s'inscrire et de se connecter avec un suivi de session</th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Respect des mesures classiques de sécurité (mot de passe non stocké en clair, CAPTCHA à
+                    l'inscription...)</th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>En étant inscrit et connecté seulement, possibilité de noter
+                    une série, en ajoutant éventuellement un commentaire optionnel (table
+                    <kbd>rating</kbd>)</th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>En étant inscrit et connecté seulement, possibilité de classer
+                    les séries par note moyenne croissante ou décroissante (en utilisant les
+                    notes postées par les utilisateurs du site)</th>
+                <td>X</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>En étant inscrit et connecté seulement, possibilité de
+                    "suivre" des séries (à l'aide de la table <kbd>user_series</kbd>) et ces séries
+                    sont accessibles</td>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>En étant inscrit et connecté seulement, possibilité de marquer
+                    un épisode comme vu ou non vu. De cette manière, l'utilisateur doit
+                    pouvoir visualiser où il en est dans le visionnage d'une série. Il est
+                    pertinent de remonter l'information dans la page "saisons"</th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Un utilisateur administrateur doit pouvoir modérer les commentaires en les supprimant</th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Un administrateur devrait pouvoir incorporer des nouvelles séries dans la base de données à l'aide de l'API <em>OMDB</em></th>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
 {% endblock %}

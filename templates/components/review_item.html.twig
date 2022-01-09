@@ -8,7 +8,7 @@
 			{% endfor %}
 			{% if app.user and ( app.user.admin or review.user.id == app.user.id) %}
 				<form method="POST" class="delete-review">
-					<input type="hidden" name="delete" value="{{ review.getId() }}"/>
+					<input type="hidden" name="delete_review" value="{{ review.getId() }}"/>
 					<input type="submit" value="[delete]"/>
 				</form>
 			{% endif %}

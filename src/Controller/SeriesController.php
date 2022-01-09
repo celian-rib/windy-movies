@@ -45,7 +45,7 @@ class SeriesController extends AbstractController
                 ->join('s.genre', 'g')
                 ->andWhere('g.id = :genre')
                 ->setParameter('genre', $genre_filter);
-        
+
         $result_counts = count($query->getQuery()->getResult());
         $query->setFirstResult($offset * $MAX_PER_PAGE)->setMaxResults($MAX_PER_PAGE);
 
@@ -57,71 +57,78 @@ class SeriesController extends AbstractController
         ]);
     }
 
-    #[Route('/library', name: 'library', methods: ['GET'])]
-    public function library(EntityManagerInterface $entityManager): Response
+    private function handleSeriePost(Request $request, Series $series, User $user, EntityManagerInterface $entityManager, $followed)
     {
-        /** @var User $user */
-        $user = $this->getUser();
-        if ($user == null)
-            return $this->redirectToRoute('index');
+        $comment = $request->get('comment');
 
-        $series = $user->getSeries();
+        $episode = $request->get('episode');
+        if (isset($episode)) {
+            $episode = $entityManager
+                ->getRepository(Episode::class)
+                ->findOneBy(["id" => $episode]);
 
-        return $this->render('pages/users/library.html.twig', [
-            'series' => $series
-        ]);
+            if ($episode->seenByUser($user))
+                $user->removeEpisode($episode);
+            else
+                $user->addEpisode($episode);
+
+            $entityManager->flush();
+            return $followed;
+        }
+
+        $rating = $request->get('rating');
+        if (isset($rating)) {
+            $new_rating = new Rating();
+            $new_rating->setComment($comment);
+            $new_rating->setValue($rating * 2);
+            $new_rating->setDate(new DateTime());
+            $new_rating->setSeries($series);
+            $new_rating->setUser($user);
+
+            $entityManager->persist($new_rating);
+            $entityManager->flush();
+            return $followed;
+        }
+
+        $delete_review = $request->get('delete_review');
+        if (isset($delete_review)) {
+            $rating = $entityManager
+                ->getRepository(Rating::class)
+                ->findOneBy(array('id' => $delete_review));
+            if (!$user->getAdmin() && !($rating->getUser()->getId() == $user->getId()))
+                return $this->redirectToRoute('index', array('toasterr' => 'You are not admin'));
+            $entityManager->remove($rating);
+            $entityManager->flush();
+            return $followed;
+        }
+
+        // Post with no params => toggle follow state
+        if ($followed)
+            $user->removeSeries($series);
+        else
+            $user->addSeries($series);
+        $entityManager->flush();
+        return !$followed;
     }
 
     #[Route('/{id}', name: 'series_show', methods: ['GET', 'POST'])]
-    public function show(Request $request, Series $series, EntityManagerInterface $entityManager): Response
+    public function show(Request $request, Series $serie, EntityManagerInterface $entityManager): Response
     {
         /** @var User $user */
         $user = $this->getUser();
         if ($user == null)
-            return $this->render('pages/serie.html.twig', ['serie' => $series, 'is_following' => false]);
+            return $this->render('pages/serie.html.twig', [
+                'serie' => $serie,
+                'is_following' => false
+            ]);
 
-        $followed = $series->followedByUser($user);
+        $followed = $serie->followedByUser($user);
 
-        if ($request->isMethod("post")) {
-            $episode = $request->get('episode');
-            $comment = $request->get('comment');
-            $rating = $request->get('rating');
-            $delete_review = $request->get('delete');
-            if (isset($episode)) {
-                $episode = $entityManager
-                    ->getRepository(Episode::class)
-                    ->findOneBy(["id" => $episode]);
-                if ($episode->seenByUser($user))
-                    $user->removeEpisode($episode);
-                else
-                    $user->addEpisode($episode);
-            } else if (isset($rating)) {
-                $new_rating = new Rating();
-                $new_rating->setComment($comment);
-                $new_rating->setValue($rating * 2);
-                $new_rating->setDate(new DateTime());
-                $new_rating->setSeries($series);
-                $new_rating->setUser($user);
-                $entityManager->persist($new_rating);
-            } else if (isset($delete_review)) {
-                $rating = $entityManager
-                    ->getRepository(Rating::class)
-                    ->findOneBy(array('id' => $delete_review));
-                if(!$user->getAdmin() && !($rating->getUser()->getId() == $user->getId()))
-                    return $this->redirectToRoute('index', array('toasterr' => 'You are not admin'));
-                $entityManager->remove($rating);
-            } else {
-                if ($followed)
-                    $user->removeSeries($series);
-                else
-                    $user->addSeries($series);
-                $followed = !$followed;
-            }
-            $entityManager->flush();
-        }
+        if ($request->isMethod("post"))
+            $followed = $this->handleSeriePost($request, $serie, $user, $entityManager, $followed);
 
         return $this->render('pages/serie.html.twig', [
-            'serie' => $series,
+            'serie' => $serie,
             'is_following' => $followed,
         ]);
     }

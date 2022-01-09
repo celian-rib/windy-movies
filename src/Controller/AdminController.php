@@ -50,7 +50,8 @@ function explodeAndInstanciate(EntityManagerInterface $entityManager, $separator
     return $entities;
 }
 
-function validateDate($date, $format = 'Y-m-d'){
+function validateDate($date, $format = 'Y-m-d')
+{
     $d = DateTime::createFromFormat($format, $date);
     return $d && $d->format($format) === $date;
 }
@@ -142,6 +143,32 @@ function addSerieFromIMDB(EntityManagerInterface $entityManager, $imdb_id, $ytb_
 class AdminController extends AbstractController
 {
 
+    private function handleAdminPost(Request $request, EntityManagerInterface $entityManager, $user): Response | null
+    {
+        $delete_review = $request->get('delete_review');
+        if (isset($delete_review)) {
+            $rating = $entityManager
+                ->getRepository(Rating::class)
+                ->findOneBy(array('id' => $delete_review));
+            if ($rating == null)
+                return null;
+            $entityManager->remove($rating);
+            $entityManager->flush();
+            return null;
+        }
+
+        $imdb_id = $request->get('imdb_id');
+        if (isset($imdb_id)) {
+            $new_serie = addSerieFromIMDB($entityManager, $imdb_id, $request->get('ytb_trailer'));
+            try {
+                return $this->redirectToRoute('series_show', array('id' => $new_serie->getId(), 'toast' => 'Serie added with success!'));
+            } catch (\Throwable $th) {
+                return $this->redirectToRoute('admin', array('toasterr' => "Error : " . $th->getMessage()));
+            }
+        }
+        return null;
+    }
+
     #[Route('/admin', name: 'admin')]
     public function admin(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -152,14 +179,10 @@ class AdminController extends AbstractController
         if ($user->getAdmin() == false)
             return $this->redirectToRoute('index', array('toasterr' => 'You are not admin'));
 
-        try {
-            $imdb_id = $request->get('imdb_id');
-            if ($request->isMethod("post") && isset($imdb_id)) {
-                $new_serie = addSerieFromIMDB($entityManager, $imdb_id, $request->get('ytb_trailer'));
-                return $this->redirectToRoute('series_show', array('id' => $new_serie->getId(), 'toast' => 'Serie added with success!'));
-            }
-        } catch (\Throwable $th) {
-            return $this->redirectToRoute('admin', array('toasterr' => "Error : " . $th->getMessage()));
+        if ($request->isMethod('post')) {
+            $post_result = $this->handleAdminPost($request, $entityManager, $user);
+            if (isset($post_result))
+                return $post_result;
         }
 
         $reviews = $entityManager

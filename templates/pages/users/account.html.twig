@@ -1,6 +1,7 @@
 {% extends 'components/navbar.html.twig' %}
 
-{% block title %}Home
+{% block title %}
+	{{ app.user.name }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -9,11 +10,13 @@
 {% endblock %}
 
 {% block app %}
-	<h1>Hello {{ app.user.name }}</h1>
-    <p>Your email is: {{ app.user.email }}</p>
+	<h1>Hello
+		{{ app.user.name }}</h1>
+	<p>Your email is:
+		{{ app.user.email }}</p>
 
-    <form method="post">
-        <input type="hidden" name="toast" value="Account deleted">
-        <input class="button" type="submit" value="Delete your account">
-    </form>
+	<form method="post">
+		<input type="hidden" name="toast" value="Account deleted">
+		<input class="button" type="submit" value="Delete your account">
+	</form>
 {% endblock %}

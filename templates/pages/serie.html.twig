@@ -49,6 +49,13 @@
 				</span>
 				{{ serie.getSeasons()|length }}</p>
 			<p>
+				<span>Actors :
+				</span>
+				{% for actor in serie.getActor() %}
+					{{ actor.getName() }}{{ loop.index < (serie.getActor()|length) ? "," }}
+				{% endfor %}
+			</p>
+			<p>
 				<span>Director :
 				</span>
 				{{ serie.director ?? "unknown" }}</p>

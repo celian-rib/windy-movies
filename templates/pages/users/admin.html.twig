@@ -1,6 +1,7 @@
 {% extends 'components/navbar.html.twig' %}
 
-{% block title %}Home
+{% block title %}
+	Admin
 {% endblock %}
 
 {% block stylesheets %}
@@ -19,7 +20,7 @@
 				<input style="width: 100%; background-color: rgba(0,0,0,0.1);" type="text" name="imdb_id" placeholder="Imdb identifier" required>
 			</div>
 			<div class="influx-container">
-				<input style="width: 100%; background-color: rgba(0,0,0,0.1);" type="text" name="ytb_trailer" placeholder="Youtube trailer (not required)">
+				<input style="width: 100%; background-color: rgba(0,0,0,0.1);" type="text" name="ytb_trailer" placeholder="Youtube trailer (optional)">
 			</div>
 			<div class="influx-container">
 				<input class="button orange-highlight" type="submit">
