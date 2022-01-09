@@ -20,16 +20,19 @@ class UserPagesController extends AbstractController
         if ($user == null)
             return $this->redirectToRoute('index');
 
-        if ($request->isMethod("post")) {
+        $delete_account = $request->get('delete_account');
+        if ($request->isMethod("post") && $delete_account != null) {
             if ($user->getAdmin())
-                return $this->redirectToRoute('account', array('toasterr' => 'You cannot delete an admin account'));
+                return $this->redirectToRoute('index', array('toasterr' => 'You cannot delete an admin account'));
             $entityManager->remove($user);
             $entityManager->flush();
             $request->getSession()->invalidate(1);
             return $this->redirectToRoute('index');
         }
 
-        return $this->render('pages/users/account.html.twig');
+        return $this->render('pages/users/account.html.twig', [
+            'reviews' => $user->getRatings()
+        ]);
     }
 
     #[Route('/library', name: 'library', methods: ['GET'])]

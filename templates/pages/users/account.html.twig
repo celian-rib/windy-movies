@@ -7,16 +7,58 @@
 {% block stylesheets %}
 	{{ parent() }}
 	<link href="{{ asset('stylesheets/content.css') }}" rel="stylesheet">
+	<link href="{{ asset('stylesheets/pages/serie.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block app %}
-	<h1>Hello
-		{{ app.user.name }}</h1>
-	<p>Your email is:
-		{{ app.user.email }}</p>
 
-	<form method="post">
-		<input type="hidden" name="toast" value="Account deleted">
-		<input class="button" type="submit" value="Delete your account">
-	</form>
+	<h1 class="separator">Your account</h1>
+	<div class="influx-container shadow slot-background">
+		<h1>Hello
+			{{ app.user.name }}</h1>
+		<p>Your email is:
+			{{ app.user.email }}</p>
+	</div>
+
+	{% if app.request.get('confirm_delete') %}
+		<div class="influx-container">
+			<form method="post">
+				<input type="hidden" name="delete_account" value="confirmed">
+				<input class="button" type="submit" value="CONFIRM DELETION">
+			</form>
+		</div>
+	{% else %}
+		<div class="influx-container">
+			<form method="post">
+				<input type="hidden" name="confirm_delete" value="1">
+				<input type="hidden" name="toast" value="Please confirm">
+				<input class="button" type="submit" value="Delete your account">
+			</form>
+		</div>
+	{% endif %}
+
+	<h1 class="separator">Your reviews</h1>
+	<div id="reviews-list" class="influx-container shadow slot-background">
+		{% for r in reviews %}
+			<div class="added-serie">
+				<a href="{{ path('series_show', {'id': r.getSeries().getId() }) }}">{{ r.getSeries().getTitle() }}</a>
+				{% include 'components/review_item.html.twig' with {'review': r} %}
+			</div>
+		{% endfor %}
+	</div>
+
+	<style>
+		.added-serie {
+			width: 100%;
+			margin-top: 3em;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.added-serie > a {
+			padding: 0.6em;
+			background-color: rgba(100, 100, 100, 0.4) !important;
+			border-radius: 10px;
+		}
+	</style>
 {% endblock %}
