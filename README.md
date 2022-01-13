@@ -6,18 +6,18 @@ TODO (Non trié)
 
 - [ ] Page d'accueil présentant le site (+ Suggestion de séries)
 - [x] Menu de navigation
-- [ ] Page à propos (Voir sujet)
+- [x] Page à propos (Voir sujet)
 - [x] Page Séries paginée
 - [x] Page Série filtres par genre
 - [x] Page info sur une séries (Saisons > épisodes)
-- [ ] Register (Avec captcha + vérifier champs)
+- [x] Register (Avec captcha + vérifier champs)
 - [x] Login
 - [x] Pouvoir noter une série
 - [x] Pouvoir suivre une série
-- [ ] Page séries suivis
+- [x] Page séries suivis
 - [x] Marquer un épisode comme vu
-- [ ] Pouvoir supprimer les commentaires en tant qu'admin
-- [ ] Mettre de nouvelles séries dans la base en tant qu'admin
+- [x] Pouvoir supprimer les commentaires en tant qu'admin
+- [x] Mettre de nouvelles séries dans la base en tant qu'admin
 - [x] Pouvoir générer des commentaires pour tester
 - [ ] 404
 - [x] Redirect sur les routes ou on doit être login et que l'on est pas login
