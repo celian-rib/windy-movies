@@ -159,8 +159,8 @@ class AdminController extends AbstractController
 
         $imdb_id = $request->get('imdb_id');
         if (isset($imdb_id)) {
-            $new_serie = addSerieFromIMDB($entityManager, $imdb_id, $request->get('ytb_trailer'));
             try {
+                $new_serie = addSerieFromIMDB($entityManager, $imdb_id, $request->get('ytb_trailer'));
                 return $this->redirectToRoute('series_show', array('id' => $new_serie->getId(), 'toast' => 'Serie added with success!'));
             } catch (\Throwable $th) {
                 return $this->redirectToRoute('admin', array('toasterr' => "Error : " . $th->getMessage()));
