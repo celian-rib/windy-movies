@@ -21,10 +21,7 @@
 {% block app %}
 
 	<form id="search-header" style="justify-content: flex-start;" class="influx-container" action="{{ path('series_index') }}" method="GET">
-		<div class="form-input-container shadow">
-			<input autocomplete="off" value="{{ curr_search ? curr_search }}" name="search" type="text" placeholder="Search content..."/>
-			<img src="{{ asset('imgs/search.svg') }}"/>
-		</div>
+		{% include 'components/search_bar.html.twig' %}
 		<div class="form-input-container">
 			<select onchange="this.form.submit()" name="genre">
 				<option value="" {{ curr_genre == null ? 'selected' }} disabled>Filter by genre</option>

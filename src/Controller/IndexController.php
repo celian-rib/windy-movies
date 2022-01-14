@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Genre;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,44 +12,60 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+function limit_result($result, $count) {
+    $arr = [];
+    for ($i=0; $i < min($count, count($result)); $i++)
+        $arr[] = $result[$i];
+    return $arr;
+}
 class IndexController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(EntityManagerInterface $entityManager): Response
     {
 
-        // TO DO => filtrer pour de vrai lel
-        $best = $entityManager
-            ->getRepository(Series::class)->findAll()[10];
+        $random_genre = $entityManager
+            ->getRepository(Genre::class)
+            ->findAll();
 
-        // TO DO => filtrer sur 5 meilleur snotes
-        $top_5 = $entityManager
-            ->getRepository(Series::class)
-            ->findBy([], null, 5); // ne pas afficher si pas connecté
+        shuffle($random_genre);
 
-        // $top_series = $entityManager
-        //     ->createQueryBuilder()
-        //     ->select('s')
-        //     ->from(Series::class, 's')
-        //     ->join('s.ratings', 'r')
-        //     // ->join('s.series_id', 'sea')
-        //     // ->join('sea.seaon_id', 'ep')
-        //     // ->join('ep.episode_id', 'uep')
-        //     // ->where(uep.user_id=)
-        //     ->orderBy('r.value', 'DESC')
-        //     ->setFirstResult(1)
-        //     ->setMaxResults(12)
-        //     ->getQuery()->getResult();
+        $random_series = $entityManager 
+            ->createQueryBuilder()
+            ->select('s')
+            ->from(Series::class, 's')
+            ->join('s.genre', 'g')
+            ->join('s.ratings', 'r')
+            ->orderBy('s.id', 'DESC')
+            ->andWhere('r.value > 4')
+            ->andWhere('g.id = :genre')
+            ->setParameter('genre', $random_genre[1]->getId())
+            ->getQuery()->getResult();
 
-        // TODO
-        $trending = $entityManager
-            ->getRepository(Series::class)
-            ->findBy([], null, 10, 10); // multiple de 5 obligé, en afficher plus que 10 si pas connecté
+        shuffle($random_series);
+
+        $top_5 = limit_result($random_series, 5);
+        $best = null;
+        if(count($random_series)>5)
+            $best = $random_series[5];
+        else
+            $best = $random_series[count($random_series) - 1];
+        
+        $trending = $entityManager 
+            ->createQueryBuilder()
+            ->select('s')
+            ->from(Series::class, 's')
+            ->orderBy('s.id', 'DESC')
+            ->andWhere('s.awards IS NOT NULL')
+            ->setMaxResults(30)
+            ->getQuery()->getResult();
+
+        shuffle($trending);
 
         return $this->render('pages/home.html.twig', [
             'best' => $best,
             'top_5' => $top_5,
-            'trending' => $trending,
+            'trending' => limit_result($trending, 10),
         ]);
     }
 

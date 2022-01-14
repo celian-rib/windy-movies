@@ -1,0 +1,53 @@
+<div style="position: relative;" class="form-input-container">
+    <input 
+        id="search-input" 
+        onchange="update ?? () => {}" 
+        name="search" 
+        type="text" 
+        placeholder="Search content..."
+        autocomplete="off"
+    />
+    <img src="{{ asset('imgs/search.svg') }}"/>
+    <div id="search-bar-suggestions">
+    </div>
+</div>
+
+<script>
+const input = document.getElementById('search-input');
+const container = document.getElementById('search-bar-suggestions');
+
+const createItem = (title, id) => {
+    result = `<a href="/series/${id}" class="search-item">`;
+    result += `<img src="/series/poster/${id}"/>`;
+    result += `<h1>${title}</h1>`;
+    result += '</a>';
+    return result;
+}
+
+let locked = false;
+
+input.addEventListener('input', async (event) => {
+    if(locked == true)
+        return;
+
+    container.innerHTML = "";
+    
+    if(input.value.length == 0)
+        return;
+    
+    locked = true;
+
+
+    const result = await fetch(`{{ path('series_search') }}?s=${input.value}`)
+        .then(result => result.json());
+    
+    result.forEach(e => {
+        container.innerHTML += createItem(e.title, e.id);
+    })
+
+    setTimeout(() => {
+        locked = false
+    }, 50);    
+})
+
+</script>

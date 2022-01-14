@@ -10,10 +10,11 @@ use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Serializer\Encoder\JsonEncode;
 
 #[Route('/series')]
 class SeriesController extends AbstractController
@@ -55,6 +56,27 @@ class SeriesController extends AbstractController
             'page_count' => ceil($result_counts / $MAX_PER_PAGE),
             'is_last' => (($offset + 1) * $MAX_PER_PAGE) >= $result_counts,
         ]);
+    }
+
+    #[Route('/search', name: 'series_search', methods: ['GET'])]
+    public function search(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $search_filter = $request->query->get('s');
+
+        $series = $entityManager
+            ->createQueryBuilder()
+            ->select('s')
+            ->from(Series::class, 's')
+            ->andWhere('s.title like :search')
+            ->setParameter('search', '%' . ($search_filter ?? 'title') . '%')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+            
+        $results = [];
+        foreach($series as $s)
+            $results[] = ['id' => $s->getId(), 'title' => $s->getTitle()];
+        return new JsonResponse($results);
     }
 
     private function handleSeriePost(Request $request, Series $series, User $user, EntityManagerInterface $entityManager, $followed)

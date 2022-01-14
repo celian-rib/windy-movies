@@ -27,7 +27,7 @@
 
 #best-serie > a {
     z-index: 10;
-    background-color: #ff9c38;
+    background-color: #19b5fe;
     padding: 1em 1.5em;
     border-radius: 30px;
     transition: transform 0.5s;
@@ -38,7 +38,7 @@
     position: absolute;
     width: 50%;
     height: 100%;
-    background-color: #ff9c38cb;
+    background-color: #19b5fecb;
 }
 
 #best-serie > span:first-of-type {

@@ -12,9 +12,11 @@
 			{% endfor %}
 		</div>
 	{% endif %}
-	{% if watched ?? 0 > 0 %}
-		<p class="watch-percent">{{ watched }}% watched</p>	
-	{% else %}
-		<p class="watch-percent">Not watched</p>	
+	{% if watched ?? null != null %}
+		{% if watched ?? 0 > 0 %}
+			<p class="watch-percent">{{ watched }}% watched</p>	
+		{% else %}
+			<p class="watch-percent">Not watched</p>	
+		{% endif %}
 	{% endif %}
 </a>

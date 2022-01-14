@@ -13,10 +13,7 @@
 
 {% block app %}
 	<form id="search-header" class="influx-container" action="{{ path('series_index') }}" method="GET">
-		<div class="form-input-container">
-			<input name="search" type="text" placeholder="Search content..."/>
-			<img src="{{ asset('imgs/search.svg') }}"/>
-		</div>
+		{% include 'components/search_bar.html.twig' %}
 		<a class="shadow button" href="{{ path('series_index') }}">Browse</a>
 	</form>
 

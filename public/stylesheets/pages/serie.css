@@ -112,7 +112,7 @@
 
 #rating-slot >p {
     margin-left: 5px;
-    color: #ff9c38;
+    color: #19b5fe;
 }
 
 #episodes > div {
@@ -237,7 +237,7 @@
 }
 
 .review-item > .review-infos > h1 {
-    color: #ff9c38;
+    color: #19b5fe;
 }
 
 .review-item > .review-infos > p {
@@ -253,7 +253,7 @@
 .review-item > .review-infos > div > p {
     font-size: 0.6em;
     opacity: 0.8;
-    color: #ff9c38;
+    color: #19b5fe;
 }
 
 .delete-review > input {
