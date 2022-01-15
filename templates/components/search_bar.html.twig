@@ -36,18 +36,13 @@ input.addEventListener('input', async (event) => {
         return;
     
     locked = true;
-
-
     const result = await fetch(`{{ path('series_search') }}?s=${input.value}`)
         .then(result => result.json());
+    locked = false;
     
     result.forEach(e => {
         container.innerHTML += createItem(e.title, e.id);
     })
-
-    setTimeout(() => {
-        locked = false
-    }, 50);    
 })
 
 </script>

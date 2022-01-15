@@ -30,6 +30,21 @@
 				{% endfor %}
 			</select>
 		</div>
+		<div class="form-input-container">
+			<select onchange="this.form.submit()" name="rating">
+				<option value="" {{ curr_rating == null ? 'selected' }} disabled>Filter by rating</option>
+				{% for i in range(1, 5) %}
+					<option {{ curr_rating != null and curr_rating == i ? 'selected' }} value="{{ i }}">
+						{% for j in range(1, i) %}★
+						{% endfor %}
+						{% if i < 5 %}
+							{% for j in range(4 - i, 0) %}☆
+							{% endfor %}
+						{% endif %}
+					</option>
+				{% endfor %}
+			</select>
+		</div>
 		{% if has_filter %}
 			<a style="margin-left: 3em;" href="{{ path('series_index') }}" class="button shadow">Clear filters</a>
 		{% endif %}

@@ -4,7 +4,7 @@
 		<p>{{ review.getDateStr() }}</p>
 		<div>
 			{% for i in range(1, 5) %}
-				<p>{{ i < review.getValue() / 2 ? "★" : "☆" }}</p>
+				<p>{{ i <= review.getValue() / 2 ? "★" : "☆" }}</p>
 			{% endfor %}
 			{% if app.user and ( app.user.admin or review.user.id == app.user.id) %}
 				<form method="POST" class="delete-review">

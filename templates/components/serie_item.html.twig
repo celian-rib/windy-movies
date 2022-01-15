@@ -8,7 +8,7 @@
 	{% if rating != null %}
 		<div class="rating fade-txt">
 			{% for i in range(1, 5) %}
-				<p>{{ i < rating / 2 ? "★" : "☆" }}</p>
+				<p>{{ i <= rating / 2 ? "★" : "☆" }}</p>
 			{% endfor %}
 		</div>
 	{% endif %}

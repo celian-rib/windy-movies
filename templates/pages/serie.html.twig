@@ -63,7 +63,7 @@
 				<span>Rating :
 				</span>
 				{% for i in range(1, 5) %}
-					<p>{{ i < serie.getAvgRatingsValue() / 2 ? "★" : "☆" }}</p>
+					<p>{{ i <= serie.getAvgRatingsValue() / 2 ? "★" : "☆" }}</p>
 				{% endfor %}
 			</div>
 		</div>

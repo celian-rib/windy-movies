@@ -8,7 +8,9 @@ use App\Entity\Rating;
 use App\Entity\Series;
 use App\Entity\User;
 use DateTime;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +27,7 @@ class SeriesController extends AbstractController
         $MAX_PER_PAGE = 20;
         $search_filter = $request->query->get('search');
         $genre_filter = $request->query->get('genre');
+        $rating_filter = $request->query->get('rating');
 
         $offset = $request->query->get('offset') ?? 0;
         if ($offset < 0)
@@ -47,14 +50,36 @@ class SeriesController extends AbstractController
                 ->andWhere('g.id = :genre')
                 ->setParameter('genre', $genre_filter);
 
-        $result_counts = count($query->getQuery()->getResult());
-        $query->setFirstResult($offset * $MAX_PER_PAGE)->setMaxResults($MAX_PER_PAGE);
+        if (isset($rating_filter))
+            $query
+                ->addSelect('avg(r.value) as rating_average')
+                ->groupBy('s.id')
+                ->join('s.ratings', 'r');
+
+        $paginator = new Paginator($query);
+        $result_count = count($paginator);
+
+        $series = [];
+
+        if (isset($rating_filter)) {
+            $result_count = $MAX_PER_PAGE;
+            foreach($paginator as $r_tuple)
+                if($r_tuple['rating_average'] <= ($rating_filter * 2 + 1) and $r_tuple['rating_average'] >= $rating_filter * 2)
+                    $series[] = $r_tuple[0];
+        } else { // Sketchy fix :/
+            $series = $paginator
+                ->getQuery()
+                ->setFirstResult($offset * $MAX_PER_PAGE)
+                ->setMaxResults($MAX_PER_PAGE)
+                ->getResult();
+        }
+
 
         return $this->render('pages/browse.html.twig', [
-            'series' => $query->getQuery()->getResult(),
+            'series' => $series,
             'genres' => $entityManager->getRepository(Genre::class)->findAll(),
-            'page_count' => ceil($result_counts / $MAX_PER_PAGE),
-            'is_last' => (($offset + 1) * $MAX_PER_PAGE) >= $result_counts,
+            'page_count' => ceil($result_count / $MAX_PER_PAGE),
+            'is_last' => (($offset + 1) * $MAX_PER_PAGE) >= $result_count,
         ]);
     }
 
@@ -72,9 +97,9 @@ class SeriesController extends AbstractController
             ->setMaxResults(5)
             ->getQuery()
             ->getResult();
-            
+
         $results = [];
-        foreach($series as $s)
+        foreach ($series as $s)
             $results[] = ['id' => $s->getId(), 'title' => $s->getTitle()];
         return new JsonResponse($results);
     }
