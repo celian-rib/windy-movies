@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Episode;
+use App\Entity\Rating;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserPagesController extends AbstractController
@@ -23,13 +22,25 @@ class UserPagesController extends AbstractController
             return $this->redirectToRoute('index');
 
         $delete_account = $request->get('delete_account');
-        if ($request->isMethod("post") && $delete_account != null) {
-            if ($user->getAdmin())
-                return $this->redirectToRoute('index', array('toasterr' => 'You cannot delete an admin account'));
-            $entityManager->remove($user);
-            $entityManager->flush();
-            $request->getSession()->invalidate(1);
-            return $this->redirectToRoute('index');
+        $delete_review = $request->get('delete_review');
+        if ($request->isMethod("post")) {
+            if (isset($delete_account)) {
+                if ($user->getAdmin())
+                    return $this->redirectToRoute('index', array('toasterr' => 'You cannot delete an admin account'));
+                $entityManager->remove($user);
+                $entityManager->flush();
+                $request->getSession()->invalidate(1);
+                return $this->redirectToRoute('index');
+            }
+            if (isset($delete_review)) {
+                $rating = $entityManager
+                    ->getRepository(Rating::class)
+                    ->findOneBy(array('id' => $delete_review));
+                if (!$user->getAdmin() && !($rating->getUser()->getId() == $user->getId()))
+                    return $this->redirectToRoute('index', array('toasterr' => 'You are not admin'));
+                $entityManager->remove($rating);
+                $entityManager->flush();
+            }
         }
 
         return $this->render('pages/users/account.html.twig', [
@@ -69,7 +80,7 @@ class UserPagesController extends AbstractController
         $result = $stmt->executeQuery([$user->getId()]);
 
         $percents = [];
-        foreach($result->fetchAllAssociative() as $r)
+        foreach ($result->fetchAllAssociative() as $r)
             $percents[$r['serie_id']] = round($r['percent']);
 
         return $this->render('pages/users/library.html.twig', [

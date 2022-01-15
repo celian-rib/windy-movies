@@ -39,6 +39,10 @@
 
 	<h1 class="separator">Your reviews</h1>
 	<div id="reviews-list" class="influx-container shadow slot-background">
+	{% if reviews|length == 0 %}
+		<h1>You haven't reviewed anything yet... </h1>
+	{% endif %}
+	
 		{% for r in reviews %}
 			<div class="added-serie">
 				<a href="{{ path('series_show', {'id': r.getSeries().getId() }) }}">{{ r.getSeries().getTitle() }}</a>
