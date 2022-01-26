@@ -3,6 +3,17 @@
 
 > S3B
 
+## .env
+
+```
+# SSH-TUNEL
+DATABASE_URL=mysql://<user>:<password>@127.0.0.1:7777/etu_criboulet?serverVersion=5.7
+```
+```
+# IUT Database
+DATABASE_URL=mysql://<user>:<password>@info-titania:3306/etu_criboulet?serverVersion=5.7
+```
+
 ## Commandes custom :
 
 > Générer des utilisateurs 
